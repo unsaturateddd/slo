@@ -120,46 +120,62 @@
             background: linear-gradient(45deg, #45a049, #4CAF50);
         }
 
-        /* Play button styles - UPDATED POSITION */
-        .play-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            bottom: 25px; /* Changed from 15px to 25px - moved down */
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-            text-decoration: none;
-            padding: 12px 24px; /* Slightly larger padding */
-            border-radius: 25px; /* More rounded */
-            font-weight: bold;
-            transition: all 0.3s ease;
-            min-width: 110px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            z-index: 10;
-        }
-
-        .play-button:hover {
-            background: linear-gradient(45deg, #45a049, #4CAF50);
-            transform: translateX(-50%) scale(1.05);
-            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
-        }
-
-        /* Game card container - ensure proper spacing */
+        /* Game card container - COMPLETELY REDESIGNED */
         .game-card {
-            position: relative;
-            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
         .game-image {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
-            display: block;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Play button styles - UNDER the image */
+        .play-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-top: 10px;
+        }
+
+        .play-button:hover {
+            background: linear-gradient(45deg, #45a049, #4CAF50);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Container grid layout */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         /* Show classes for JavaScript */
@@ -179,28 +195,42 @@
                 width: 140px;
             }
             
-            .play-button {
-                bottom: 20px; /* Slightly less space on mobile */
-                padding: 10px 20px;
-                font-size: 14px;
-                min-width: 90px;
-            }
-            
-            .game-image {
-                height: 180px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .play-button {
-                bottom: 18px;
-                padding: 8px 16px;
-                font-size: 13px;
-                min-width: 80px;
+            .container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+                padding: 15px;
             }
             
             .game-image {
                 height: 160px;
+            }
+            
+            .play-button {
+                padding: 10px 20px;
+                font-size: 14px;
+                min-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 10px;
+            }
+            
+            .game-image {
+                height: 140px;
+            }
+            
+            .play-button {
+                padding: 8px 16px;
+                font-size: 13px;
+                min-width: 90px;
+            }
+            
+            .game-card {
+                padding: 12px;
             }
         }
     </style>
@@ -238,10 +268,6 @@
             <img src="../other/3.jpg" alt="Mines" class="game-image"> 
             <a href="../min/index.html" class="play-button"><span class="play-text">Play</span></a> 
         </div> 
-         <div class="game-card">
-            <img src="../avia/images/1.png" alt="TOWERS" class="game-image">
-            <a href="../avia/index.html" class="play-button">Play</a>
-        </div>
         <div class="game-card"> 
             <img src="../other/14.png" alt="Balloon" class="game-image"> 
             <a href="../bal/index.html" class="play-button"><span class="play-text">Play</span></a> 
