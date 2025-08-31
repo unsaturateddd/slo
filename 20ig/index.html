@@ -1,135 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game</title>
+<style>
+  body { margin:0; font-family:sans-serif; background:#111; color:#fff; }
+  .top-bar { display:flex; justify-content:space-between; padding:10px; background:#222; align-items:center; }
+  .bot-menu { position:relative; }
+  .bot-trigger img { width:30px; cursor:pointer; }
+  .bot-dropdown { position:absolute; top:40px; right:0; background:#333; border:1px solid #555; display:block; width:180px; }
+  .bot-item { padding:8px 12px; cursor:pointer; border-bottom:1px solid #555; }
+  .bot-item:hover { background:#444; }
+  .lang-options { display:none; background:#444; }
+  .lang-option { padding:6px 10px; cursor:pointer; }
+  .lang-option:hover { background:#555; }
+  .container { display:flex; flex-wrap:wrap; padding:10px; justify-content:center; }
+  .game-card { margin:5px; position:relative; }
+  .game-image { width:150px; height:100px; display:block; }
+  .play-button { position:absolute; top:0; left:0; width:100%; height:100%; display:block; }
+  .settings-popup, .profile-popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#222; padding:20px; border:1px solid #555; display:none; z-index:100; }
+  .settings-button, .profile-close, #nickname-save-btn { margin-top:10px; cursor:pointer; }
+</style>
 </head>
-<body>        
-  <div class="stars"></div>
+<body>
 
-  <div class="top-bar">
-    <div class="device-info" id="device-info">
-      <span class="device-info-icon" id="device-icon">💻</span>
-      <span class="device-info-text" id="device-text">PC</span>
+<div class="top-bar">
+  <div class="device-info" id="device-info">
+    <span class="device-info-icon">💻</span>
+    <span class="device-info-text">PC</span>
+  </div>
+  <div class="bot-menu">
+    <div class="bot-trigger" onclick="toggleLanguageMenu()">
+      <img src="../other/menu.png" alt="Menu">
     </div>
-
-    <div class="bot-menu" id="bot-menu">
-      <div class="bot-menu-glow">
-        <div class="bot-trigger" onclick="toggleBotMenu()">
-          <img src="../other/menu.png" alt="Menu" class="lang-flag">
-        </div>
-      </div>
-      <div class="bot-dropdown" id="bot-dropdown">
-        <div class="bot-item" onclick="toggleLangMenu()">🌐 <span data-translate="language">Language</span></div>
-        <div class="lang-options" id="lang-options" style="display:none;">
-          <div class="bot-item" onclick="changeLang('en')">🇬🇧 English</div>
-          <div class="bot-item" onclick="changeLang('ru')">🇷🇺 Русский</div>
-          <div class="bot-item" onclick="changeLang('hi')">🇮🇳 हिन्दी</div>
-          <div class="bot-item" onclick="changeLang('pt')">🇵🇹 Português</div>
-          <div class="bot-item" onclick="changeLang('es')">🇪🇸 Español</div>
-        </div>
-        <div class="bot-item" onclick="openProfile()">👤 <span data-translate="profile">Profile</span></div>
-        <div class="bot-item" onclick="toggleSettingsMenu()">⚙️ <span data-translate="settings">Settings</span></div>
-        <div class="back-button-container">
-          <a href="../index.html" class="back-button">← <span data-translate="back">Back</span></a>
-        </div>
-      </div>
+    <div class="bot-dropdown" id="bot-dropdown">
+      <div class="bot-item" onclick="toggleLanguageMenu()">🌐 Language</div>
+      <div class="lang-options" id="lang-options"></div>
+      <div class="bot-item" onclick="openProfile()">👤 Profile</div>
+      <div class="bot-item" onclick="toggleSettingsMenu()">⚙️ Settings</div>
+      <div class="back-button-container"><a href="../index.html" class="back-button">← Back</a></div>
     </div>
   </div>
+</div>
 
-  <div class="container">
-    <!-- Игры -->
-    <div class="game-card"><img src="../other/3.jpg" alt="Mines" class="game-image"><a href="../min/index.html" class="play-button"></a></div>
-    <div class="game-card"><img src="../other/14.png" alt="Balloon" class="game-image"><a href="../bal/index.html" class="play-button"></a></div>
-    <div class="game-card"><img src="../other/4.png" alt="COLOR" class="game-image"><a href="../COLOR/index.html" class="play-button"></a></div>
-    <div class="game-card"><img src="../other/9.png" alt="Aviator" class="game-image"><a href="../avi/index.html" class="play-button"></a></div>
-    <div class="game-card"><img src="../other/6.png" alt="Penalty" class="game-image"><a href="../pen/index.html" class="play-button"></a></div>
-    <div class="game-card"><img src="../other/15.png" alt="Goal" class="game-image"><a href="../goa/index.html" class="play-button"></a></div>
-    <div class="game-card"><img src="../other/10.png" alt="Turbo" class="game-image"><a href="../turboD/index.html" class="play-button"></a></div>
-    <div class="game-card"><img src="../other/12.png" alt="Chicken" class="game-image"><a href="../chi/index.html" class="play-button"></a></div>
-    <div class="game-card"><img src="../other/5.png" alt="Football" class="game-image"><a href="../foo/index.html" class="play-button"></a></div>
-    <div class="game-card"><img src="../other/11.png" alt="NewMines" class="game-image"><a href="../nmi/index.html" class="play-button"></a></div>
-    <div class="game-card"><img src="../other/20.jpg" alt="Towers" class="game-image"><a href="../royal/index.html" class="play-button"></a></div>
+<div class="container">
+  <div class="game-card"><img src="../other/3.jpg" class="game-image"><a href="../min/index.html" class="play-button"></a></div>
+  <div class="game-card"><img src="../other/14.png" class="game-image"><a href="../bal/index.html" class="play-button"></a></div>
+  <div class="game-card"><img src="../other/4.png" class="game-image"><a href="../COLOR/index.html" class="play-button"></a></div>
+</div>
+
+<div class="settings-popup" id="settings-popup">
+  <div class="settings-box">
+    <div class="settings-title" id="settings-title">⚙️ Settings</div>
+    <button onclick="toggleGlow()" class="settings-button" id="glow-btn">🔆 Toggle Glow</button>
+    <button onclick="toggleStars()" class="settings-button" id="stars-btn">✨ Toggle Stars</button>
+    <button onclick="toggleBackgroundStyle()" class="settings-button" id="bg-btn">🌌 Change Background</button>
+    <button onclick="closeSettings()" class="settings-close">Close</button>
   </div>
+</div>
 
-  <div class="settings-popup animated-settings" id="settings-popup">
-    <div class="settings-box">
-      <div class="settings-title">⚙️ <span data-translate="settings">Settings</span></div>
-      <button onclick="toggleGlow()" class="settings-button" data-type="glow">🔆 <span data-translate="glow">Disable glow</span></button>
-      <button onclick="toggleStars()" class="settings-button" data-type="stars">✨ <span data-translate="stars">Disable stars</span></button>
-      <button onclick="toggleBackgroundStyle()" class="settings-button" data-type="bg-style" id="bg-style-btn">🌌 <span data-translate="background">Change background</span></button>
-      <button onclick="closeSettings()" class="settings-close" data-translate="close">Close</button>
+<div class="profile-popup" id="profile-popup">
+  <div class="profile-box">
+    <div class="profile-title" id="profile-title">👤 Profile</div>
+    <div id="nickname-section">
+      <label id="nickname-label" for="nickname-input">Enter nickname:</label>
+      <input type="text" id="nickname-input" placeholder="Your nickname">
+      <button id="nickname-save-btn">Save</button>
     </div>
-  </div>
-
-  <div class="profile-popup animated-profile" id="profile-popup">
-    <div class="profile-box">
-      <div class="profile-title" id="profile-title">👤 <span data-translate="profile">Profile</span></div>
-      <div id="nickname-section">
-        <label for="nickname-input" id="nickname-label" data-translate="nickname-label">Enter nickname:</label>
-        <input type="text" id="nickname-input" placeholder="Your nickname">
-        <button id="nickname-save-btn" onclick="saveNickname()" data-translate="save">Save</button>
-      </div>
-      <div id="profile-info" style="display: none;">
-        <p><strong data-translate="nickname">Nickname:</strong> <span id="nickname-display"></span></p>
-        <p><strong data-translate="status">Account status:</strong> <span id="status-text" style="color: limegreen;">🟢 Green</span></p>
-        <p><strong data-translate="chance">Drop chance:</strong> <span>81%</span></p>
-      </div>
-      <button class="profile-close" id="close-profile-btn" onclick="closeProfile()" data-translate="close">Close</button>
+    <div id="profile-info" style="display:none;">
+      <p><strong id="label-nickname">Nickname:</strong> <span id="nickname-display"></span></p>
+      <p><strong id="label-status">Account status:</strong> <span id="status-text" style="color:limegreen">🟢 Green</span></p>
+      <p><strong id="label-chance">Drop chance:</strong> <span>81%</span></p>
     </div>
+    <button class="profile-close" onclick="closeProfile()">Close</button>
   </div>
+</div>
 
-  <script>
-    const translations = {
-      en: {
-        language: "Language", profile: "Profile", settings: "Settings", back: "Back",
-        glow: "Disable glow", stars: "Disable stars", background: "Change background", close: "Close",
-        "nickname-label": "Enter nickname:", save: "Save", nickname: "Nickname:", status: "Account status:", chance: "Drop chance:"
-      },
-      ru: {
-        language: "Язык", profile: "Профиль", settings: "Настройки", back: "Назад",
-        glow: "Выключить сияние", stars: "Выключить звёзды", background: "Сменить фон", close: "Закрыть",
-        "nickname-label": "Введите никнейм:", save: "Сохранить", nickname: "Никнейм:", status: "Статус аккаунта:", chance: "Шанс выдачи:"
-      },
-      hi: {
-        language: "भाषा", profile: "प्रोफ़ाइल", settings: "सेटिंग्स", back: "वापस",
-        glow: "चमक बंद करें", stars: "सितारे बंद करें", background: "पृष्ठभूमि बदलें", close: "बंद करें",
-        "nickname-label": "उपनाम दर्ज करें:", save: "सहेजें", nickname: "उपनाम:", status: "खाते की स्थिति:", chance: "ड्रॉप संभावना:"
-      },
-      pt: {
-        language: "Idioma", profile: "Perfil", settings: "Configurações", back: "Voltar",
-        glow: "Desativar brilho", stars: "Desativar estrelas", background: "Mudar fundo", close: "Fechar",
-        "nickname-label": "Digite o apelido:", save: "Salvar", nickname: "Apelido:", status: "Status da conta:", chance: "Chance de queda:"
-      },
-      es: {
-        language: "Idioma", profile: "Perfil", settings: "Configuración", back: "Atrás",
-        glow: "Desactivar brillo", stars: "Desactivar estrellas", background: "Cambiar fondo", close: "Cerrar",
-        "nickname-label": "Introduce un apodo:", save: "Guardar", nickname: "Apodo:", status: "Estado de la cuenta:", chance: "Probabilidad de caída:"
-      }
-    };
+<script>
+  const translations = {
+    en:{profile:"👤 Profile", settings:"⚙️ Settings", back:"← Back", glow:"🔆 Toggle Glow", stars:"✨ Toggle Stars", bg:"🌌 Change Background", close:"Close", nickname:"Nickname:", enterNickname:"Enter nickname:", save:"Save", status:"Account status:", chance:"Drop chance:", green:"🟢 Green"},
+    ru:{profile:"👤 Профиль", settings:"⚙️ Настройки", back:"← Назад", glow:"🔆 Выключить сияние", stars:"✨ Выключить звёзды", bg:"🌌 Сменить фон", close:"Закрыть", nickname:"Никнейм:", enterNickname:"Введите никнейм:", save:"Сохранить", status:"Статус аккаунта:", chance:"Шанс выдачи:", green:"🟢 Зелёный"},
+    hi:{profile:"👤 प्रोफ़ाइल", settings:"⚙️ सेटिंग्स", back:"← वापस", glow:"🔆 चमक बंद करें", stars:"✨ सितारों को बंद करें", bg:"🌌 पृष्ठभूमि बदलें", close:"बंद करें", nickname:"उपनाम:", enterNickname:"उपनाम दर्ज करें:", save:"सहेजें", status:"खाता स्थिति:", chance:"संभावना:", green:"🟢 हरा"},
+    pt:{profile:"👤 Perfil", settings:"⚙️ Configurações", back:"← Voltar", glow:"🔆 Desativar brilho", stars:"✨ Desativar estrelas", bg:"🌌 Alterar fundo", close:"Fechar", nickname:"Apelido:", enterNickname:"Digite o apelido:", save:"Salvar", status:"Status da conta:", chance:"Chance de queda:", green:"🟢 Verde"},
+    es:{profile:"👤 Perfil", settings:"⚙️ Configuración", back:"← Atrás", glow:"🔆 Desactivar brillo", stars:"✨ Desactivar estrellas", bg:"🌌 Cambiar fondo", close:"Cerrar", nickname:"Apodo:", enterNickname:"Introduce un apodo:", save:"Guardar", status:"Estado de la cuenta:", chance:"Probabilidad:", green:"🟢 Verde"}
+  };
 
-    function changeLang(lang) {
-      localStorage.setItem("siteLang", lang); // сохраняем
-      document.querySelectorAll("[data-translate]").forEach(el => {
-        const key = el.getAttribute("data-translate");
-        el.textContent = translations[lang][key];
-      });
+  function setLanguage(lang){
+    localStorage.setItem("siteLang", lang);
+    const t=translations[lang];
+    document.getElementById("profile-title").innerText=t.profile;
+    document.getElementById("settings-title").innerText=t.settings;
+    document.getElementById("glow-btn").innerText=t.glow;
+    document.getElementById("stars-btn").innerText=t.stars;
+    document.getElementById("bg-btn").innerText=t.bg;
+    document.getElementById("nickname-label").innerText=t.enterNickname;
+    document.getElementById("nickname-save-btn").innerText=t.save;
+    document.getElementById("label-nickname").innerText=t.nickname;
+    document.getElementById("label-status").innerText=t.status;
+    document.getElementById("label-chance").innerText=t.chance;
+    document.getElementById("status-text").innerText=t.green;
+    document.querySelector(".back-button").innerText=t.back;
+  }
+
+  function toggleLanguageMenu(){
+    const menu=document.getElementById("lang-options");
+    menu.style.display=(menu.style.display==="none"||menu.style.display==="")?"block":"none";
+  }
+
+  function renderLanguages(){
+    const container=document.getElementById("lang-options");
+    container.innerHTML="";
+    const langs={en:"🇬🇧 English", ru:"🇷🇺 Русский", hi:"🇮🇳 हिन्दी", pt:"🇵🇹 Português", es:"🇪🇸 Español"};
+    for(const [code,name] of Object.entries(langs)){
+      const btn=document.createElement("div");
+      btn.className="lang-option";
+      btn.innerText=name;
+      btn.onclick=()=>{setLanguage(code); toggleLanguageMenu();};
+      container.appendChild(btn);
     }
+  }
 
-    function toggleLangMenu() {
-      const menu = document.getElementById("lang-options");
-      menu.style.display = menu.style.display === "none" ? "block" : "none";
-    }
+  window.onload=function(){
+    renderLanguages();
+    const savedLang=localStorage.getItem("siteLang")||"en";
+    setLanguage(savedLang);
+  };
+</script>
 
-    // Загружаем сохранённый язык или ставим английский по умолчанию
-    window.onload = () => {
-      const saved = localStorage.getItem("siteLang") || "en";
-      changeLang(saved);
-    };
-  </script>
-
-  <script src="script.js"></script>
 </body>
 </html>
