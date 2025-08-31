@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>  
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>        
+      
+    <div class="stars"></div>
+
+    <div class="top-bar">
+    <div class="device-info" id="device-info">
+        <span class="device-info-icon" id="device-icon">💻</span>
+        <span class="device-info-text" id="device-text">ПК</span>
+    </div>
+
+    <div class="bot-menu" id="bot-menu">
+        <div class="bot-menu-glow">
+          <div class="bot-trigger" onclick="toggleBotMenu()">
+            <img src="../other/menu.png" alt="Menu" class="lang-flag">
+          </div>
+        </div>
+        <div class="bot-dropdown" id="bot-dropdown">
+            <div class="bot-item" onclick="toggleLangMenu()">🌐 Язык</div>
+            <div class="lang-options" id="lang-options"></div>
+            <div class="bot-item" onclick="openProfile()">👤 Профиль</div>
+            <div class="bot-item" onclick="toggleSettingsMenu()">⚙️ Настройки</div>
+            <div class="back-button-container">
+        <a href="../index.html" class="back-button">← Back</a>
+    </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <div class="container">
+          <div class="game-card">
+            <img src="../other/3.jpg" alt="Mines" class="game-image">
+            <a href="../min/index.html" class="play-button"></a>
+        </div>
+        <div class="game-card">
+            <img src="../other/14.png" alt="Balloon" class="game-image">
+            <a href="../bal/index.html" class="play-button"></a>
+        </div>
+        <div class="game-card">
+            <img src="../other/4.png" alt="COLOR" class="game-image">
+            <a href="../COLOR/index.html" class="play-button"></a>
+        </div>
+        <div class="game-card">
+            <img src="../other/9.png" alt="Aviator" class="game-image">
+            <a href="../avi/index.html" class="play-button"></a>
+        </div>
+        <div class="game-card">
+            <img src="../other/6.png" alt="Penalty" class="game-image">
+            <a href="../pen/index.html" class="play-button"></a>
+        </div>
+        <div class="game-card">
+            <img src="../other/15.png" alt="Goal" class="game-image">
+            <a href="../goa/index.html" class="play-button"></a>
+        </div>
+        <div class="game-card">
+            <img src="../other/10.png" alt="Mines" class="game-image">
+            <a href="../turboD/index.html" class="play-button"></a>
+        </div>
+        <div class="game-card">
+            <img src="../other/12.png" alt="Chicken" class="game-image">
+            <a href="../chi/index.html" class="play-button"></a>
+        </div>
+        <div class="game-card">
+            <img src="../other/5.png" alt="Footboll" class="game-image">
+            <a href="../foo/index.html" class="play-button"></a>
+        </div>
+        <div class="game-card">
+            <img src="../other/11.png" alt="NewMines" class="game-image">
+            <a href="../nmi/index.html" class="play-button"></a>
+        </div>
+        <div class="game-card">
+            <img src="../other/20.jpg" alt="TOWERS" class="game-image">
+            <a href="../royal/index.html" class="play-button"></a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <div class="settings-popup animated-settings" id="settings-popup">
+        <div class="settings-box">
+          <div class="settings-title">⚙️ Настройки</div>
+          <button onclick="toggleGlow()" class="settings-button" data-type="glow">🔆 Выключить сияние</button>
+          <button onclick="toggleStars()" class="settings-button" data-type="stars">✨ Выключить звёзды</button>
+          <button onclick="toggleBackgroundStyle()" class="settings-button" data-type="bg-style" id="bg-style-btn">🌌 Сменить фон</button>
+          <button onclick="closeSettings()" class="settings-close">Закрыть</button>
+        </div>
+      </div>
+
+<div class="profile-popup animated-profile" id="profile-popup">
+  <div class="profile-box">
+    <div class="profile-title" id="profile-title">👤 Профиль</div>
+
+    <div id="nickname-section">
+      <label for="nickname-input" id="nickname-label">Введите никнейм:</label>
+      <input type="text" id="nickname-input" placeholder="Ваш никнейм">
+      <button id="nickname-save-btn" onclick="saveNickname()">Сохранить</button>
+    </div>
+
+    <div id="profile-info" style="display: none;">
+      <p><strong id="label-nickname">Никнейм:</strong> <span id="nickname-display"></span></p>
+      <p><strong id="label-status">Статус аккаунта:</strong> <span id="status-text" style="color: limegreen;">🟢 Зелёный</span></p>
+      <p><strong id="label-chance">Шанс выдачи:</strong> <span>81%</span></p>
+    </div>
+
+    <button class="profile-close" id="close-profile-btn" onclick="closeProfile()">Закрыть</button>
+  </div>
+</div>
+
+
+
+
+
+</body>
+</html>
