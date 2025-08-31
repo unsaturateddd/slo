@@ -1,116 +1,265 @@
-<script>
-// Словарь с переводами
-const translations = {
-  en: {
-    language: "🌐 Language",
-    profile: "👤 Profile",
-    settings: "⚙️ Settings",
-    back: "← Back",
-    nicknameLabel: "Enter your nickname:",
-    saveNickname: "Save",
-    status: "Account Status:",
-    chance: "Chance:",
-  },
-  ru: {
-    language: "🌐 Язык",
-    profile: "👤 Профиль",
-    settings: "⚙️ Настройки",
-    back: "← Назад",
-    nicknameLabel: "Введите никнейм:",
-    saveNickname: "Сохранить",
-    status: "Статус аккаунта:",
-    chance: "Шанс:",
-  },
-  hi: {
-    language: "🌐 भाषा",
-    profile: "👤 प्रोफ़ाइल",
-    settings: "⚙️ सेटिंग्स",
-    back: "← वापस",
-    nicknameLabel: "अपना उपनाम दर्ज करें:",
-    saveNickname: "सहेजें",
-    status: "खाता स्थिति:",
-    chance: "संभावना:",
-  },
-  pt: {
-    language: "🌐 Idioma",
-    profile: "👤 Perfil",
-    settings: "⚙️ Configurações",
-    back: "← Voltar",
-    nicknameLabel: "Digite seu apelido:",
-    saveNickname: "Salvar",
-    status: "Status da conta:",
-    chance: "Chance:",
-  },
-  es: {
-    language: "🌐 Idioma",
-    profile: "👤 Perfil",
-    settings: "⚙️ Configuración",
-    back: "← Atrás",
-    nicknameLabel: "Ingrese su apodo:",
-    saveNickname: "Guardar",
-    status: "Estado de la cuenta:",
-    chance: "Probabilidad:",
-  }
-};
-
-// Функция для смены языка
-function setLanguage(lang) {
-  localStorage.setItem('siteLang', lang);
-  const t = translations[lang];
-
-  // Меняем текст в меню
-  document.querySelector('.bot-item[onclick*="toggleLangMenu"]').innerText = t.language;
-  document.querySelector('.bot-item[onclick*="openProfile"]').innerText = t.profile;
-  document.querySelector('.bot-item[onclick*="toggleSettingsMenu"]').innerText = t.settings;
-  document.querySelector('.back-button').innerText = t.back;
-
-  // Меняем текст в профиле
-  if (document.getElementById('nickname-label')) document.getElementById('nickname-label').innerText = t.nicknameLabel;
-  if (document.getElementById('nickname-save-btn')) document.getElementById('nickname-save-btn').innerText = t.saveNickname;
-  if (document.getElementById('label-status')) document.getElementById('label-status').innerText = t.status;
-  if (document.getElementById('label-chance')) document.getElementById('label-chance').innerText = t.chance;
+<!DOCTYPE html> 
+<html lang="ru"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Game</title> 
+    <link rel="stylesheet" href="styles.css"> 
+</head> 
+<style>
+  .lang-options {
+    display: none;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    min-width: 150px;
 }
 
-// Функция для отображения меню выбора языка
-function toggleLangMenu() {
-  const menu = document.getElementById('lang-optionss');
-  if (!menu) {
-    // Создаем контейнер для кнопок языков
-    const container = document.createElement('div');
-    container.id = 'lang-optionss';
-    container.style.position = 'absolute';
-    container.style.background = '#222';
-    container.style.color = 'white';
-    container.style.padding = '5px';
-    container.style.marginTop = '5px';
-    container.style.borderRadius = '5px';
-    container.style.zIndex = '1000';
-    document.querySelector('.bot-dropdown').appendChild(container);
-    languages.forEach(l => {
-      const btn = document.createElement('div');
-      btn.style.cursor = 'pointer';
-      btn.style.padding = '2px 5px';
-      btn.innerText = l.flag + ' ' + l.name;
-      btn.onclick = () => { setLanguage(l.code); container.style.display = 'none'; };
-      container.appendChild(btn);
+.lang-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px 0;
+    transition: background-color 0.3s ease;
+}
+
+.lang-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .lang-options {
+        position: fixed;
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        max-width: 300px;
+    }
+}
+</style>
+<body> 
+    <div class="stars"></div> 
+    <div class="top-bar"> 
+        <div class="device-info" id="device-info"> 
+            <span class="device-info-icon" id="device-icon">💻</span> 
+            <span class="device-info-text" id="device-text">ПК</span> 
+        </div> 
+        <div class="bot-menu" id="bot-menu"> 
+            <div class="bot-menu-glow"> 
+                <div class="bot-trigger" onclick="toggleBotMenu()"> 
+                    <img src="../other/menu.png" alt="Menu" class="lang-flag"> 
+                </div> 
+            </div> 
+            <div class="bot-dropdown" id="bot-dropdown"> 
+                <div class="bot-item" onclick="toggleLangMenu()">🌐 <span class="lang-text">Язык</span></div> 
+                <div class="lang-options" id="lang-options"> 
+                    <div class="lang-option" onclick="changeLanguage('ru')">🇷🇺 Русский</div> 
+                    <div class="lang-option" onclick="changeLanguage('en')">🇺🇸 English</div> 
+                    <div class="lang-option" onclick="changeLanguage('es')">🇪🇸 Español</div> 
+                </div> 
+                <div class="bot-item" onclick="openProfile()">👤 <span class="profile-text">Профиль</span></div> 
+                <div class="bot-item" onclick="toggleSettingsMenu()">⚙️ <span class="settings-text">Настройки</span></div> 
+                <div class="back-button-container"> 
+                    <a href="../index.html" class="back-button"><span class="back-text">← Назад</span></a> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+    <div class="container"> 
+        <div class="game-card"> 
+            <img src="../other/3.jpg" alt="Mines" class="game-image"> 
+            <a href="../min/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/14.png" alt="Balloon" class="game-image"> 
+            <a href="../bal/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/4.png" alt="COLOR" class="game-image"> 
+            <a href="../COLOR/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/9.png" alt="Aviator" class="game-image"> 
+            <a href="../avi/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/6.png" alt="Penalty" class="game-image"> 
+            <a href="../pen/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/15.png" alt="Goal" class="game-image"> 
+            <a href="../goa/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/10.png" alt="Mines" class="game-image"> 
+            <a href="../turboD/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/12.png" alt="Chicken" class="game-image"> 
+            <a href="../chi/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/5.png" alt="Footboll" class="game-image"> 
+            <a href="../foo/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/11.png" alt="NewMines" class="game-image"> 
+            <a href="../nmi/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/20.jpg" alt="TOWERS" class="game-image"> 
+            <a href="../royal/index.html" class="play-button"></a> 
+        </div> 
+    </div> 
+    <script src="script.js"></script> 
+    <div class="settings-popup animated-settings" id="settings-popup"> 
+        <div class="settings-box"> 
+            <div class="settings-title">⚙️ <span class="settings-title-text">Настройки</span></div> 
+            <button onclick="toggleGlow()" class="settings-button" data-type="glow">🔆 <span class="glow-text">Выключить сияние</span></button> 
+            <button onclick="toggleStars()" class="settings-button" data-type="stars">✨ <span class="stars-text">Выключить звёзды</span></button> 
+            <button onclick="toggleBackgroundStyle()" class="settings-button" data-type="bg-style" id="bg-style-btn">🌌 <span class="background-text">Сменить фон</span></button> 
+            <button onclick="closeSettings()" class="settings-close"><span class="close-text">Закрыть</span></button> 
+        </div> 
+    </div> 
+    <div class="profile-popup animated-profile" id="profile-popup"> 
+        <div class="profile-box"> 
+            <div class="profile-title" id="profile-title">👤 <span class="profile-title-text">Профиль</span></div> 
+            <div id="nickname-section"> 
+                <label for="nickname-input" id="nickname-label"><span class="nickname-label-text">Введите никнейм:</span></label> 
+                <input type="text" id="nickname-input" placeholder="" class="nickname-placeholder"> 
+                <button id="nickname-save-btn" onclick="saveNickname()"><span class="save-text">Сохранить</span></button> 
+            </div> 
+            <div id="profile-info" style="display: none;"> 
+                <p><strong id="label-nickname"><span class="nickname-text">Никнейм:</span></strong> <span id="nickname-display"></span></p> 
+                <p><strong id="label-status"><span class="status-text">Статус аккаунта:</span></strong> <span id="status-text" style="color: limegreen;">🟢 <span class="status-value">Зелёный</span></span></p> 
+                <p><strong id="label-chance"><span class="chance-text">Шанс выдачи:</span></strong> <span>81%</span></p> 
+            </div> 
+            <button class="profile-close" id="close-profile-btn" onclick="closeProfile()"><span class="close-profile-text">Закрыть</span></button> 
+        </div> 
+    </div> 
+
+    <script>
+    // Функция для смены языка
+    function changeLanguage(lang) {
+        const translations = {
+            'ru': {
+                'lang': 'Язык',
+                'profile': 'Профиль',
+                'settings': 'Настройки',
+                'back': '← Назад',
+                'settingsTitle': 'Настройки',
+                'glow': 'Выключить сияние',
+                'stars': 'Выключить звёзды',
+                'background': 'Сменить фон',
+                'close': 'Закрыть',
+                'profileTitle': 'Профиль',
+                'nicknameLabel': 'Введите никнейм:',
+                'nicknamePlaceholder': 'Ваш никнейм',
+                'save': 'Сохранить',
+                'nickname': 'Никнейм:',
+                'status': 'Статус аккаунта:',
+                'statusValue': 'Зелёный',
+                'chance': 'Шанс выдачи:',
+                'closeProfile': 'Закрыть'
+            },
+            'en': {
+                'lang': 'Language',
+                'profile': 'Profile',
+                'settings': 'Settings',
+                'back': '← Back',
+                'settingsTitle': 'Settings',
+                'glow': 'Disable glow',
+                'stars': 'Disable stars',
+                'background': 'Change background',
+                'close': 'Close',
+                'profileTitle': 'Profile',
+                'nicknameLabel': 'Enter nickname:',
+                'nicknamePlaceholder': 'Your nickname',
+                'save': 'Save',
+                'nickname': 'Nickname:',
+                'status': 'Account status:',
+                'statusValue': 'Green',
+                'chance': 'Chance:',
+                'closeProfile': 'Close'
+            },
+            'es': {
+                'lang': 'Idioma',
+                'profile': 'Perfil',
+                'settings': 'Ajustes',
+                'back': '← Atrás',
+                'settingsTitle': 'Ajustes',
+                'glow': 'Desactivar resplandor',
+                'stars': 'Desactivar estrellas',
+                'background': 'Cambiar fondo',
+                'close': 'Cerrar',
+                'profileTitle': 'Perfil',
+                'nicknameLabel': 'Ingrese apodo:',
+                'nicknamePlaceholder': 'Tu apodo',
+                'save': 'Guardar',
+                'nickname': 'Apodo:',
+                'status': 'Estado de cuenta:',
+                'statusValue': 'Verde',
+                'chance': 'Probabilidad:',
+                'closeProfile': 'Cerrar'
+            }
+        };
+
+        // Обновляем все текстовые элементы
+        document.querySelectorAll('.lang-text').forEach(el => el.textContent = translations[lang].lang);
+        document.querySelectorAll('.profile-text').forEach(el => el.textContent = translations[lang].profile);
+        document.querySelectorAll('.settings-text').forEach(el => el.textContent = translations[lang].settings);
+        document.querySelectorAll('.back-text').forEach(el => el.textContent = translations[lang].back);
+        document.querySelectorAll('.settings-title-text').forEach(el => el.textContent = translations[lang].settingsTitle);
+        document.querySelectorAll('.glow-text').forEach(el => el.textContent = translations[lang].glow);
+        document.querySelectorAll('.stars-text').forEach(el => el.textContent = translations[lang].stars);
+        document.querySelectorAll('.background-text').forEach(el => el.textContent = translations[lang].background);
+        document.querySelectorAll('.close-text').forEach(el => el.textContent = translations[lang].close);
+        document.querySelectorAll('.profile-title-text').forEach(el => el.textContent = translations[lang].profileTitle);
+        document.querySelectorAll('.nickname-label-text').forEach(el => el.textContent = translations[lang].nicknameLabel);
+        document.querySelectorAll('.nickname-placeholder').forEach(el => el.placeholder = translations[lang].nicknamePlaceholder);
+        document.querySelectorAll('.save-text').forEach(el => el.textContent = translations[lang].save);
+        document.querySelectorAll('.nickname-text').forEach(el => el.textContent = translations[lang].nickname);
+        document.querySelectorAll('.status-text').forEach(el => el.textContent = translations[lang].status);
+        document.querySelectorAll('.status-value').forEach(el => el.textContent = translations[lang].statusValue);
+        document.querySelectorAll('.chance-text').forEach(el => el.textContent = translations[lang].chance);
+        document.querySelectorAll('.close-profile-text').forEach(el => el.textContent = translations[lang].closeProfile);
+
+        // Сохраняем выбранный язык в localStorage
+        localStorage.setItem('selectedLanguage', lang);
+        
+        // Закрываем меню языков
+        toggleLangMenu();
+    }
+
+    // Функция для переключения меню языков
+    function toggleLangMenu() {
+        const langOptions = document.getElementById('lang-options');
+        langOptions.style.display = langOptions.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Загрузка сохраненного языка при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedLanguage = localStorage.getItem('selectedLanguage') || 'ru';
+        changeLanguage(savedLanguage);
     });
-  } else {
-    menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
-  }
-}
 
-// Определяем языки для кнопок
-const languages = [
-  {code:'en', name:'English', flag:'🇬🇧'},
-  {code:'ru', name:'Русский', flag:'🇷🇺'},
-  {code:'hi', name:'हिन्दी', flag:'🇮🇳'},
-  {code:'pt', name:'Português', flag:'🇵🇹'},
-  {code:'es', name:'Español', flag:'🇪🇸'}
-];
+    // Закрытие меню языков при клике вне его
+    document.addEventListener('click', function(event) {
+        const langOptions = document.getElementById('lang-options');
+        const botItem = document.querySelector('.bot-item');
+        
+        if (!event.target.closest('.lang-options') && !event.target.closest('.bot-item')) {
+            langOptions.style.display = 'none';
+        }
+    });
+    </script>
 
-// Загружаем язык при старте
-window.onload = () => {
-  const lang = localStorage.getItem('siteLang') || 'en';
-  setLanguage(lang);
-};
-</script>
+</body>
+
+</html>
