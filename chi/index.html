@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chicks</title>
+  <style>
+    .round-history {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .round-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      opacity: 0.9;
+    }
+
+    .round-icon.left {
+      background: linear-gradient(145deg, #52cf56, #3fa843);
+    }
+
+    .round-icon.right {
+      background: linear-gradient(145deg, #2ba5ff, #1a7ab9);
+    }
+
+    /* Обнуление стилей */
+    body, html {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Обновленный верхний контейнер */
+    .top-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 30%;
+      background: linear-gradient(to bottom, #87CEEB, #B0E2FF);
+      z-index: 1000;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Фон на весь экран */
+    .background {
+      background: url('static/chickss.jpg') no-repeat center center fixed;
+      background-size: cover;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Контейнер для полос */
+    .stripe-container {
+      position: absolute;
+      width: 100%;
+      height: 79%;
+      overflow: hidden; /* Обрезаем содержимое */
+      bottom: 0;
+    }
+
+    /* Полоса */
+    .stripe {
+      position: absolute;
+      bottom: -20%; /* Начинает за пределами экрана снизу */
+      left: 50%;
+      width: 10px; /* Ширина полосы */
+      height: 20%; /* Высота полосы */
+      background: rgba(255, 255, 255, 0.7); /* Полупрозрачный белый цвет */
+      transform: translateX(-50%);
+      animation: moveStripe 2s linear infinite; /* Бесконечное движение */
+    }
+
+    /* Анимация движения полос */
+    @keyframes moveStripe {
+      0% {
+        bottom: -20%;
+      }
+      100% {
+        bottom: 100%;
+      }
+    }
+
+    /* GIF по центру */
+    .center-gif {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 150px;
+      height: 150px;
+      transform: translate(-50%, -50%);
+      background-image: url('./chicks1/chicks.gif');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 1002;
+      transition: transform 0.4s ease;
+    }
+
+
+
+
+    /* Кнопка "Начать" */
+    .start-button {
+      position: absolute;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(45deg, #ff8a00, #ffbf28);  /* Градиентный фон */
+      color: white;
+      border: none;
+      border-radius: 35px;  /* Увеличен радиус скругления */
+      padding: 20px 50px;   /* Увеличены отступы */
+      font-size: 22px;      /* Увеличен размер шрифта */
+      cursor: pointer;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      box-shadow: 0 8px 20px rgba(255, 139, 0, 0.3);  /* Улучшена тень с цветом */
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);  /* Добавлена анимация */
+      font-weight: 700;     /* Сделан более жирным */
+      letter-spacing: 1px;  /* Увеличен межбуквенный интервал */
+      text-transform: uppercase;  /* Заглавные буквы */
+      border: 2px solid rgba(255, 255, 255, 0.2);  /* Добавлена тонкая обводка */
+    }
+
+    .start-button:hover {
+      background: linear-gradient(45deg, #ffa500, #ffd700);
+      box-shadow: 0 12px 25px rgba(255, 139, 0, 0.4);
+      transform: translateX(-50%) translateY(-4px);
+      letter-spacing: 2px;  /* Увеличиваем расстояние между буквами при наведении */
+    }
+
+    .start-button:active {
+      transform: translateX(-50%) translateY(-2px) scale(0.97);
+      box-shadow: 0 6px 15px rgba(255, 139, 0, 0.3);
+    }
+
+    /* Стили для облаков */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50px;
+      animation: floatCloud linear infinite;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: '';
+      position: absolute;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+    }
+
+    .cloud::before {
+      width: 50%;
+      height: 100%;
+      top: -40%;
+      left: 15%;
+    }
+
+    .cloud::after {
+      width: 40%;
+      height: 80%;
+      top: -30%;
+      right: 15%;
+    }
+
+    @keyframes floatCloud {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(100vw);
+      }
+    }
+
+    /* Обновляем стили для counter-container и arrow */
+    .counter-container {
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 12px 25px;
+      margin-top: auto;
+      margin-bottom: 0px;
+      z-index: 1001;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-bottom: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .progress-info {
+      width: 100%;
+      text-align: center;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+      padding-bottom: 8px;
+    }
+
+    .arrow {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+      opacity: 0.3;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border-radius: 50%;
+      transform: scale(0.85);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .arrow.active {
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      animation: pulseArrow 1.5s infinite alternate;
+    }
+
+    @keyframes pulseArrow {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+
+    .arrow.left {
+      background: linear-gradient(145deg, #52cf56, #3fa843);
+    }
+
+    .arrow.right {
+      background: linear-gradient(145deg, #2ba5ff, #1a7ab9);
+    }
+
+    .arrow:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.7) inset;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .arrow.active:after {
+      opacity: 0.4;
+    }
+
+    /* Стили для модального окна */
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.7);
+      background: white;
+      padding: 30px 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center;
+    }
+
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .modal h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .modal-button {
+      background: linear-gradient(45deg, #ff8a00, #ffbf28);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 35px;
+      font-size: 18px;
+      cursor: pointer;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      box-shadow: 0 5px 15px rgba(255, 139, 0, 0.3);
+      transition: all 0.3s ease;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-button:hover {
+      background: linear-gradient(45deg, #ffa500, #ffd700);
+      box-shadow: 0 8px 20px rgba(255, 139, 0, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1999;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Улучшенный эффект мигания */
+    .flash-area {
+      position: absolute;
+      width: 180px;
+      height: 80px;
+      border-radius: 50% 50% 50% 50% / 25% 25% 75% 75%;
+      background: radial-gradient(ellipse at center, rgba(255, 100, 100, 0.9) 0%, rgba(255, 0, 0, 0.7) 40%, rgba(180, 0, 0, 0) 80%);
+      opacity: 0;
+      z-index: 990;
+      pointer-events: none;
+      box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
+      transform-origin: center bottom;
+    }
+
+    .flash-area.left {
+      top: 40%;
+      left: 5%;
+      transform: translate(0, -100%) rotate(-20deg);
+    }
+
+    .flash-area.right {
+      top: 40%;
+      right: 5%;
+      transform: translate(0, -100%) rotate(20deg);
+    }
+
+    @keyframes flashAnimation {
+      0% { opacity: 0; transform: scale(0.8) translateY(0); }
+      20% { opacity: 0.9; transform: scale(1.1) translateY(-10px); }
+      40% { opacity: 0.7; transform: scale(1) translateY(0); }
+      60% { opacity: 0.9; transform: scale(1.2) translateY(-15px); }
+      80% { opacity: 0.6; transform: scale(1.1) translateY(-5px); }
+      100% { opacity: 0; transform: scale(0.9) translateY(0); }
+    }
+
+    /* Стили для машины */
+    .car {
+      position: absolute;
+      width: auto;
+      height: 180px; /* Увеличиваем размер с 120px до 180px */
+      z-index: 995;
+      opacity: 0;
+    }
+
+    .car.left {
+      bottom: -180px; /* Корректируем начальную позицию для более крупной машины */
+      left: 5%; /* Уменьшаем значение с 15% до 5%, чтобы машина была левее */
+    }
+
+    .car.right {
+      bottom: -180px; /* Корректируем начальную позицию для более крупной машины */
+      right: 5%; /* Уменьшаем значение с 15% до 5%, чтобы машина была правее */
+    }
+
+    @keyframes carMoveUp {
+      0% { bottom: -180px; opacity: 1; } /* Корректируем начальную позицию анимации */
+      100% { bottom: 100%; opacity: 1; }
+    }
+
+    /* Стили для кнопки "Back to menu" */
+    .back-button {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(45deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      border-radius: 35px;
+      padding: 15px 40px;
+      font-size: 18px;
+      cursor: pointer;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .back-button:hover {
+      background: linear-gradient(45deg, #2980b9, #3498db);
+      box-shadow: 0 12px 25px rgba(52, 152, 219, 0.4);
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    .back-button:active {
+      transform: translateX(-50%) translateY(-2px) scale(0.97);
+      box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+    }
+
+    /* Стили для индикатора загрузки */
+    .loading-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .loading-indicator.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background">
+    <div class="top-container" id="cloudContainer">
+      <!-- Облака будут добавлены через JavaScript -->
+      <div class="counter-container" id="counterContainer">
+        <div class="progress-info">Прогресс: <span id="progressCount">0</span>/11</div>
+        <div class="round-history" id="roundHistory"></div>
+      </div>      
+      <div class="cloud" style="width: 84.1781px; height: 42.089px; top: 24.7356%; animation-duration: 21.9809s;"></div><div class="cloud" style="width: 86.9385px; height: 43.4693px; top: 32.9421%; animation-duration: 21.0104s;"></div><div class="cloud" style="width: 60.8982px; height: 30.4491px; top: 32.7443%; animation-duration: 15.9315s;"></div><div class="cloud" style="width: 79.1977px; height: 39.5989px; top: 7.07614%; animation-duration: 17.3983s;"></div><div class="cloud" style="width: 61.1542px; height: 30.5771px; top: 21.3562%; animation-duration: 15.4657s;"></div><div class="cloud" style="width: 80.3624px; height: 40.1812px; top: 8.15106%; animation-duration: 18.9129s;"></div></div>
+
+    <!-- Контейнер для полос -->
+    <div class="stripe-container" id="stripe-container"><div class="stripe" style="animation-delay: 0s;"></div><div class="stripe" style="animation-delay: 0.4s;"></div><div class="stripe" style="animation-delay: 0.8s;"></div><div class="stripe" style="animation-delay: 1.2s;"></div><div class="stripe" style="animation-delay: 1.6s;"></div></div>
+
+    <!-- GIF по центру -->
+    <div class="center-gif" id="centerGif"></div>
+
+
+    <!-- Элементы для эффекта мигания -->
+    <div class="flash-area left" id="leftFlash"></div>
+    <div class="flash-area right" id="rightFlash"></div>
+
+    <!-- Элементы для машин -->
+    <img src="static/car.png" class="car left" id="leftCar" alt="Car Left">
+    <img src="static/car.png" class="car right" id="rightCar" alt="Car Right">
+
+    <!-- Кнопка "Начать" -->
+    <button class="start-button" id="startButton">Начать</button>
+    
+    <!-- Кнопка "Back to menu" -->
+    <button class="back-button" g="goBack" target="_blank2" onclick="location.href='../index.html'">Back</button>
+  </div>
+
+  <!-- Добавляем модальное окно перед закрывающим тегом body -->
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="modal" id="gameEndModal">
+    <h2>Игра окончена!</h2>
+    <button class="modal-button" id="modalOkButton">OK</button>
+  </div>
+
+  <!-- Индикатор загрузки -->
+  <div class="loading-indicator" id="loadingIndicator">
+    <div class="spinner"></div>
+  </div>
+  <!-- Подключение внешнего JavaScript файла -->
+  <script src="static/game.js"></script>
+</body></html>
