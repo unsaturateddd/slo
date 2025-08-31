@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Avia Masters Hack</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 0;
+            padding-top: 0;
+            background-image: url('images/1.png');
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Прозрачный фон только для начального экрана */
+        #initial-screen.content-container {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        /* Белый фон для остальных блоков */
+        .content-container {
+            background: rgba(255, 255, 255, 1);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90%;
+            width: 300px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+            position: relative;
+            z-index: 10;
+            margin: 10px 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .red-button-gradient {
+            background-image: linear-gradient(to bottom, #F88888, #DC3545);
+            color: #FFFFFF;
+            border: none;
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+            border-radius: 20px;
+        }
+
+        .red-button-gradient:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 5px rgba(220, 53, 69, 0.5);
+        }
+
+        /* === Initial Screen === */
+        #initial-screen {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            height: auto;
+        }
+
+        .initial-button {
+            padding: 12px 30px;
+            border-radius: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            text-transform: uppercase;
+            background-image: linear-gradient(to bottom, #F88888, #DC3545);
+            color: #FFFFFF;
+            border: none;
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+            width: 100%;
+        }
+
+        .initial-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 5px rgba(220, 53, 69, 0.5);
+        }
+
+        /* === Bet Input Screen === */
+        #bet-input-screen {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            height: auto;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 0.9em;
+            color: #666;
+            margin-left: 5px;
+        }
+
+        .input-group input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            font-size: 1.1em;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .confirm-bet-button {
+            padding: 12px 30px;
+            border-radius: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            text-transform: uppercase;
+            background-image: linear-gradient(to bottom, #F88888, #DC3545);
+            color: #FFFFFF;
+            border: none;
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+            width: 100%;
+        }
+
+        .confirm-bet-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 5px rgba(220, 53, 69, 0.5);
+        }
+
+        /* === Sync Phase === */
+        #sync-phase {
+            min-height: 200px;
+            height: auto;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sync-header {
+            color: #333;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .sync-message-area {
+            text-align: left;
+            width: 100%;
+            padding: 0 10px;
+            box-sizing: border-box;
+            font-size: 0.7em;
+            line-height: 1.25;
+            height: 180px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+            white-space: normal;
+            flex-grow: 1;
+            padding-bottom: 5px;
+        }
+
+        .sync-line {
+            opacity: 1;
+            overflow: hidden;
+            color: #666;
+            font-weight: normal;
+            width: 100%;
+            word-break: break-word;
+            min-height: 1.25em;
+            line-height: 1.25em;
+            white-space: pre-wrap;
+        }
+
+        .sync-line.success {
+            color: #28a745;
+        }
+
+        /* === Analysis Phase === */
+        #analysis-phase {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            min-height: 120px;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateY(-50px);
+            margin-bottom: -50px;
+        }
+
+        .analysis-text {
+            color: #000;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .loading-bar-container {
+            width: 90%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 0;
+        }
+
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #007bff;
+            border-radius: 10px;
+            animation: fillBar 1.5s forwards;
+        }
+
+        @keyframes fillBar {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        /* === Signal Phase === */
+        #signal-phase {
+            min-height: 150px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+
+        .signal-header {
+            color: #333;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .signal-text {
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            color: #555;
+            text-align: center;
+            width: 100%;
+            padding: 0 10px;
+            box-sizing: border-box;
+            word-break: break-word;
+        }
+
+        .signal-text strong {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .signal-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .close-button {
+            background-color: #FFFFFF;
+            color: #333;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            text-transform: uppercase;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .close-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* === Bottom UI === */
+        .bottom-ui {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+            width: 100%;
+            max-width: 340px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .language-selection {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .language-button {
+            width: 80px;
+            height: 40px;
+            border-radius: 20px;
+            color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+            background-image: linear-gradient(to bottom, #F88888, #DC3545);
+            border: 2px solid #DC3545;
+        }
+
+        .language-button.active {
+            background-image: linear-gradient(to bottom, #72D572, #4CAF50);
+            border-color: #28a745;
+            transform: scale(1.05);
+        }
+
+        .language-button:active {
+            transform: scale(0.98);
+        }
+
+        .all-games-button {
+            padding: 10px 20px;
+            border: 2px solid #DC3545;
+            border-radius: 20px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 5px rgba(220, 53, 69, 0.2);
+            text-transform: uppercase;
+            background-image: linear-gradient(to bottom, #F88888, #DC3545);
+            color: #FFFFFF;
+            width: 100%;
+            max-width: 340px;
+        }
+
+        .all-games-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(220, 53, 69, 0.3);
+        }
+
+        /* Адаптация под мобильные устройства */
+        @media (max-width: 380px) {
+            body {
+                padding-bottom: 0;
+                padding-top: 0;
+            }
+            .content-container {
+                width: 270px;
+                padding: 15px;
+            }
+            #initial-screen.content-container {
+                background: transparent !important;
+                box-shadow: none !important;
+            }
+            .initial-button, .confirm-bet-button {
+                font-size: 1.3em;
+                padding: 10px 25px;
+                border-radius: 18px;
+            }
+            .input-group input {
+                font-size: 1em;
+                padding: 8px;
+                border-radius: 12px;
+            }
+            .sync-header, .signal-header {
+                font-size: 1em;
+            }
+            .sync-message-area {
+                font-size: 0.65em;
+                height: 150px;
+            }
+            .sync-line {
+                min-height: 1.2em;
+                line-height: 1.2em;
+            }
+            #analysis-phase {
+                padding-top: 15px;
+                padding-bottom: 15px;
+                transform: translateY(-30px);
+                margin-bottom: -30px;
+            }
+            .analysis-text {
+                font-size: 1.4em;
+                margin-bottom: 8px;
+            }
+            .loading-bar-container {
+                height: 8px;
+                border-radius: 8px;
+                margin-bottom: 0;
+            }
+            .loading-bar {
+                border-radius: 8px;
+            }
+            .signal-text {
+                font-size: 0.85em;
+            }
+            .close-button {
+                font-size: 1em;
+                padding: 8px 12px;
+                border-radius: 18px;
+            }
+            .language-button {
+                width: 70px;
+                padding: 8px;
+                font-size: 0.8em;
+                border-radius: 18px;
+                height: 36px;
+            }
+            .all-games-button {
+                font-size: 0.9em;
+                padding: 8px 15px;
+                border-radius: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="initial-screen" class="content-container">
+        <button class="initial-button" id="startButton" onclick="showBetInputScreen()"></button>
+        <div class="language-selection">
+            <div class="language-button" id="langRu" onclick="setLanguage('ru')">RU 🇷🇺</div>
+            <div class="language-button" id="langEn" onclick="setLanguage('en')">EN 🇺🇸</div>
+        </div>
+    </div>
+
+    <div id="bet-input-screen" class="content-container" style="display: none;">
+        <div class="input-group">
+            <label id="betInputLabel" for="bet-input"></label>
+            <input type="number" id="bet-input" value="100" min="1" step="10" placeholder="Ваша ставка">
+        </div>
+        <button class="confirm-bet-button" id="confirmBetButton" onclick="showSyncPhase()"></button>
+    </div>
+
+    <div id="sync-phase" class="content-container" style="display: none;">
+        <div class="sync-header" id="syncHeader"></div>
+        <div class="sync-message-area" id="sync-message-area">
+            </div>
+    </div>
+
+    <div id="analysis-phase" class="content-container" style="display: none;">
+        <div id="analysis-text" class="analysis-text"></div>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+    </div>
+
+    <div id="signal-phase" class="content-container" style="display: none;">
+        <div class="signal-header" id="signalHeader"></div>
+        <div id="signal-message" class="signal-text">
+            </div>
+        <div class="signal-buttons">
+            <button class="close-button" id="closeButton" onclick="showInitialScreen()"></button>
+        </div>
+    </div>
+
+    <div class="bottom-ui">
+        <button class="all-games-button" onclick="window.location.href='../index.html'" id="allGamesButton"></button>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App
+        function initTelegramWebApp() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                const webApp = window.Telegram.WebApp;
+
+                // Развернуть приложение на весь экран
+                webApp.expand();
+
+                // Установить цвет фона
+                webApp.setBackgroundColor('#F0F0F0');
+
+                // Обработчик кнопки "Назад" в Telegram
+                webApp.BackButton.onClick(showInitialScreen);
+
+                // Показать кнопку "Назад" когда нужно
+                function updateBackButton() {
+                    if (document.getElementById('bet-input-screen').style.display === 'flex' ||
+                        document.getElementById('sync-phase').style.display === 'flex' ||
+                        document.getElementById('analysis-phase').style.display === 'flex' ||
+                        document.getElementById('signal-phase').style.display === 'flex') {
+                        webApp.BackButton.show();
+                    } else {
+                        webApp.BackButton.hide();
+                    }
+                }
+
+                // Переопределить функции показа экранов для управления кнопкой "Назад"
+                const originalShowInitialScreen = showInitialScreen;
+                const originalShowBetInputScreen = showBetInputScreen;
+                const originalShowSyncPhase = showSyncPhase;
+                const originalStartAnalysisPhase = startAnalysisPhase;
+                const originalShowSignalPhase = showSignalPhase;
+
+                showInitialScreen = function() {
+                    originalShowInitialScreen();
+                    updateBackButton();
+                };
+
+                showBetInputScreen = function() {
+                    originalShowBetInputScreen();
+                    updateBackButton();
+                };
+
+                showSyncPhase = function() {
+                    originalShowSyncPhase();
+                    updateBackButton();
+                };
+
+                startAnalysisPhase = function() {
+                    originalStartAnalysisPhase();
+                    updateBackButton();
+                };
+
+                showSignalPhase = function() {
+                    originalShowSignalPhase();
+                    updateBackButton();
+                };
+
+                // Обработчик кнопки "Все игры"
+                document.getElementById('allGamesButton').addEventListener('click', function() {
+                    webApp.openTelegramLink('../index.html');
+                });
+            }
+        }
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getRandomFloat(min, max, decimals) {
+            const str = (Math.random() * (max - min) + min).toFixed(decimals);
+            return parseFloat(str);
+        }
+
+        const syncMessages = {
+            ru: [
+                { text: 'Инициализация модулей...' },
+                { text: 'Попытка подключения к BGAMING API...' },
+                { text: 'BGAMING API: Соединение установлено.', success: true },
+                { text: 'Попытка подключения к Серверу GamblingGPT AI...' },
+                { text: 'Сервера GamblingGPT AI: Соединение установлено.', success: true },
+                { text: 'Попытка подключения к Шлюз АВИАМАСТЕР...' },
+                { text: 'Шлюз АВИАМАСТЕР: Соединение установлено.', success: true },
+                { text: 'Все системы синхронизированы.', success: true }
+            ],
+            en: [
+                { text: 'Initializing modules...' },
+                { text: 'Attempting connection to BGAMING API...' },
+                { text: 'BGAMING API: Connection established.', success: true },
+                { text: 'Attempting connection to GamblingGPT AI Server...' },
+                { text: 'GamblingGPT AI Server: Connection established.', success: true },
+                { text: 'Attempting connection to AVIAMASTER Gateway...' },
+                { text: 'AVIAMASTER Gateway: Connection established.', success: true },
+                { text: 'All systems synchronized.', success: true }
+            ]
+        };
+
+        const uiTexts = {
+            ru: {
+                startButton: 'Получить Сигнал',
+                betInputLabel: 'Укажите ставку',
+                confirmBetButton: 'ПОДТВЕРДИТЬ',
+                syncHeader: 'СИНХРОНИЗАЦИЯ ДАННЫХ',
+                analysisText: 'Анализ...',
+                signalHeader: 'ПОЛЕТ ЗАВЕРШЕН',
+                closeButton: 'ЗАКРЫТЬ',
+                langRu: 'RU',
+                langEn: 'EN',
+                allGamesButton: 'Все игры',
+                signalMessage: (gamesLeft, userBet, winMultiplier, chance) => `Вам осталось <strong>${gamesLeft}</strong> игр со ставкой <strong>${userBet}</strong> <strong>RUB</strong>, до заноса X<strong>${winMultiplier}</strong> с шансом <strong>${chance}</strong>%`
+            },
+            en: {
+                startButton: 'GET SIGNAL',
+                betInputLabel: 'Enter Your Bet',
+                confirmBetButton: 'CONFIRM',
+                syncHeader: 'DATA SYNCHRONIZATION',
+                analysisText: 'Analyzing...',
+                signalHeader: 'FLIGHT COMPLETED',
+                closeButton: 'CLOSE',
+                langRu: 'RU',
+                langEn: 'EN',
+                allGamesButton: 'All Games',
+                signalMessage: (gamesLeft, userBet, winMultiplier, chance) => `You have <strong>${gamesLeft}</strong> games left with a <strong>${userBet}</strong> bet, until a X<strong>${winMultiplier}</strong> payout with a <strong>${chance}</strong>% chance.`
+            }
+        };
+
+        let currentLanguage = 'ru';
+        let userBet = 100;
+        let generatedSignal = {
+            gamesLeft: 0,
+            winMultiplier: 0,
+            chance: 0
+        };
+
+        function updateUI() {
+            document.getElementById('startButton').textContent = uiTexts[currentLanguage].startButton;
+            document.getElementById('betInputLabel').textContent = uiTexts[currentLanguage].betInputLabel;
+            document.getElementById('confirmBetButton').textContent = uiTexts[currentLanguage].confirmBetButton;
+            document.getElementById('syncHeader').textContent = uiTexts[currentLanguage].syncHeader;
+            document.getElementById('signalHeader').textContent = uiTexts[currentLanguage].signalHeader;
+            document.getElementById('closeButton').textContent = uiTexts[currentLanguage].closeButton;
+            document.getElementById('allGamesButton').textContent = uiTexts[currentLanguage].allGamesButton;
+
+            document.getElementById('langRu').textContent = uiTexts['ru'].langRu + ' 🇷🇺';
+            document.getElementById('langEn').textContent = uiTexts['en'].langEn + ' 🇺🇸';
+
+            document.getElementById('langRu').classList.remove('active');
+            document.getElementById('langEn').classList.remove('active');
+            document.getElementById('lang' + (currentLanguage === 'ru' ? 'Ru' : 'En')).classList.add('active');
+
+            if (document.getElementById('signal-phase').style.display === 'flex') {
+                displaySignal();
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            updateUI();
+        }
+
+        function showInitialScreen() {
+            document.getElementById('initial-screen').style.display = 'flex';
+            document.getElementById('bet-input-screen').style.display = 'none';
+            document.getElementById('sync-phase').style.display = 'none';
+            document.getElementById('analysis-phase').style.display = 'none';
+            document.getElementById('signal-phase').style.display = 'none';
+
+            document.getElementById('bet-input').value = '100';
+            userBet = 100;
+            generatedSignal = { gamesLeft: 0, winMultiplier: 0, chance: 0 };
+        }
+
+        function showBetInputScreen() {
+            document.getElementById('initial-screen').style.display = 'none';
+            document.getElementById('bet-input-screen').style.display = 'flex';
+            document.getElementById('sync-phase').style.display = 'none';
+            document.getElementById('analysis-phase').style.display = 'none';
+            document.getElementById('signal-phase').style.display = 'none';
+        }
+
+        function showSyncPhase() {
+            userBet = parseInt(document.getElementById('bet-input').value) || 100;
+            if (userBet < 1) userBet = 100;
+
+            document.getElementById('bet-input-screen').style.display = 'none';
+            document.getElementById('sync-phase').style.display = 'flex';
+
+            const syncMessageArea = document.getElementById('sync-message-area');
+            syncMessageArea.innerHTML = '';
+
+            let lineIndex = 0;
+            function typeLine(lineElement, text, charIndex = 0) {
+                if (charIndex < text.length) {
+                    lineElement.textContent += text.charAt(charIndex);
+                    setTimeout(() => typeLine(lineElement, text, charIndex + 1), 15);
+                } else {
+                    setTimeout(typeNextLine, 200);
+                }
+            }
+
+            function typeNextLine() {
+                if (lineIndex < syncMessages[currentLanguage].length) {
+                    const messageData = syncMessages[currentLanguage][lineIndex];
+                    const messageText = messageData.text;
+                    const lineElement = document.createElement('div');
+                    lineElement.classList.add('sync-line');
+                    if (messageData.success) {
+                        lineElement.classList.add('success');
+                    }
+                    syncMessageArea.appendChild(lineElement);
+
+                    syncMessageArea.scrollTop = syncMessageArea.scrollHeight;
+
+                    typeLine(lineElement, messageText);
+
+                    lineIndex++;
+                } else {
+                    setTimeout(() => {
+                        syncMessageArea.innerHTML = '';
+                        startAnalysisPhase();
+                    }, 500);
+                }
+            }
+            typeNextLine();
+        }
+
+        function startAnalysisPhase() {
+            document.getElementById('sync-phase').style.display = 'none';
+            document.getElementById('analysis-phase').style.display = 'flex';
+
+            const analysisTextElement = document.getElementById('analysis-text');
+            analysisTextElement.textContent = '';
+
+            let textToType = uiTexts[currentLanguage].analysisText;
+            let charIndex = 0;
+            function typeAnalysisText() {
+                if (charIndex < textToType.length) {
+                    analysisTextElement.textContent += textToType.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeAnalysisText, 50);
+                }
+            }
+            typeAnalysisText();
+
+            const loadingBar = document.querySelector('#analysis-phase .loading-bar');
+            loadingBar.style.animation = 'none';
+            void loadingBar.offsetWidth;
+            loadingBar.style.animation = 'fillBar 1.5s forwards';
+
+            setTimeout(showSignalPhase, 1500);
+        }
+
+        function generateAndStoreSignal() {
+            generatedSignal.gamesLeft = getRandomInt(3, 10);
+            generatedSignal.winMultiplier = getRandomFloat(1.5, 500.0, 1);
+            generatedSignal.chance = getRandomInt(64, 98);
+        }
+
+        function displaySignal() {
+            const signalMessageElement = document.getElementById('signal-message');
+            signalMessageElement.innerHTML = uiTexts[currentLanguage].signalMessage(
+                generatedSignal.gamesLeft,
+                userBet,
+                generatedSignal.winMultiplier,
+                generatedSignal.chance
+            );
+        }
+
+        function showSignalPhase() {
+            document.getElementById('analysis-phase').style.display = 'none';
+            document.getElementById('signal-phase').style.display = 'flex';
+
+            if (generatedSignal.gamesLeft === 0) {
+                generateAndStoreSignal();
+            }
+            displaySignal();
+        }
+
+        window.onload = function() {
+            showInitialScreen();
+            setLanguage('ru');
+            initTelegramWebApp();
+        };
+    </script>
+</body>
+</html>

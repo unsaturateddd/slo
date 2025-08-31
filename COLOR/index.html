@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Number Panel</title>
+    <!-- Подключение кастомного шрифта Intro -->
+    <style>
+        @font-face {
+            font-family: 'Intro';
+            src: url('intro.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Основные переменные */
+        :root {
+            --color-main: rgba(54, 85, 151, 0.8); /* Прозрачный синий по умолчанию */
+            --color-button: #1E90FF; /* Морской синий */
+            --color-button-hover: #00BFFF; /* Светло-голубой */
+            --color-loader: #ffffff; /* Белый цвет для загрузчика во время анимации */
+            --color-number-loader: #ffffff; /* Белый цвет для блока числа */
+            --transition-speed: 0.3s;
+            --font-family: 'Roboto Mono', monospace;
+        }
+
+        /* Анимированный фон страницы */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #2a5298);
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite;
+            font-family: var(--font-family);
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Верхняя часть с анимированным текстом */
+        .winner {
+            margin-bottom: 20px; /* Отступ между текстом и квадратом */
+            text-align: center;
+            width: 300px; /* Совпадает с шириной квадрата */
+        }
+
+        #loading-text {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            font-family: 'Intro', sans-serif; /* Применение кастомного шрифта */
+        }
+
+        #loading-text span { 
+            display: inline-block;
+            animation: bounce 0.3s ease infinite alternate;
+            font-size: 45px; /* Увеличен размер для лучшего встраивания */
+            color: rgb(209, 178, 5);
+            text-shadow: 0 0.25px 0 #ccc, 0 0.5px 0 #ccc, 0 0.75px 0 #ccc, 0 1px 0 #ccc,
+                        0 1.25px 0 #ccc, 0 1.5px 0 transparent, 0 1.75px 0 transparent, 0 2px 0 transparent,
+                        0 2.25px 0 transparent, 0 2.5px 2.5px rgba(0, 0, 0, 0.2);
+        }
+
+        #loading-text span:nth-child(1) { animation-delay: 0s; }
+        #loading-text span:nth-child(2) { animation-delay: 0.1s; }
+        #loading-text span:nth-child(3) { animation-delay: 0.2s; }
+        #loading-text span:nth-child(4) { animation-delay: 0.3s; }
+        #loading-text span:nth-child(5) { animation-delay: 0.4s; }
+        #loading-text span:nth-child(6) { animation-delay: 0.5s; }
+        #loading-text span:nth-child(7) { animation-delay: 0.6s; }
+        #loading-text span:nth-child(8) { animation-delay: 0.7s; }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        /* Контейнер числа и загрузчика */
+        #number-container {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            background-color: var(--color-main); /* Прозрачный синий по умолчанию */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+
+        /* Стили для режима загрузки */
+        #number-container.loading {
+            box-shadow: 0 0 40px #ffffff, 0 0 40px #ffffff; /* Белый неон */
+            /* Фоновый цвет остаётся var(--color-main) */
+        }
+
+        /* Загрузчик */
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            margin: -100px 0 0 -100px; /* Центрирование */
+            display: none;
+            z-index: 2;
+        }
+
+        .circle {
+            position: absolute;
+            border: 5px solid transparent;
+            border-top-color: var(--color-loader); /* Белый цвет верхней границы */
+            border-radius: 50%;
+            animation: rotate linear infinite;
+            box-shadow: 0 0 15px var(--color-loader); /* Белое свечение */
+        }
+
+        .circle.one {
+            width: 80px;
+            height: 80px;
+            top: 60px;
+            left: 60px;
+            animation-duration: 0.8s; /* Ускорено */
+        }
+
+        .circle.two {
+            width: 120px;
+            height: 120px;
+            top: 40px;
+            left: 40px;
+            animation-duration: 1.0s; /* Ускорено */
+        }
+
+        .circle.three {
+            width: 160px;
+            height: 160px;
+            top: 20px;
+            left: 20px;
+            animation-duration: 1.2s; /* Ускорено */
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Проценты загрузки */
+        .load {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: #ffffff;
+            font-weight: bold;
+            z-index: 3;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* Блок числа */
+        .number-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 120px;
+            font-weight: bold;
+            color: #ffffff;
+            border-radius: 20px;
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Ускорено */
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: scale(0);
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px var(--color-number-loader);
+            z-index: 1;
+            background-color: transparent; /* Убираем фон */
+        }
+
+        /* Кнопка генерации числа */
+        .random-button {
+            width: 300px;
+            padding: 15px 0;
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px; /* Прямоугольная форма */
+            background-color: var(--color-button);
+            color: #ffffff;
+            font-family: 'Intro', sans-serif; /* Применение кастомного шрифта */
+            transition: background-color var(--transition-speed), transform var(--transition-speed), opacity 0.3s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 25px 10px rgba(255, 255, 255, 0.2);
+            position: relative;
+            margin-top: 30px; /* Отступ сверху для размещения кнопки ниже квадрата */
+            letter-spacing: 1px;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .random-button.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .random-button:hover {
+            background-color: var(--color-button-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 35px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Логотип Telegram и имя пользователя */
+        .telegram-info {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 25px;
+            color: #ffffff;
+            font-family: sans-serif; /* Стандартный шрифт */
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            text-transform: none; /* Убираем капс */
+        }
+
+        .telegram-info img {
+            margin-right: 8px;
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 480px) {
+            #number-container {
+                width: 250px;
+                height: 250px;
+            }
+
+            .loader {
+                width: 150px;
+                height: 150px;
+                margin: -75px 0 0 -75px;
+            }
+
+            .circle.one {
+                width: 70px;
+                height: 70px;
+                top: 40px;
+                left: 40px;
+                animation-duration: 0.6s; /* Ускорено */
+            }
+
+            .circle.two {
+                width: 100px;
+                height: 100px;
+                top: 25px;
+                left: 25px;
+                animation-duration: 0.8s; /* Ускорено */
+            }
+
+            .circle.three {
+                width: 130px;
+                height: 130px;
+                top: 10px;
+                left: 10px;
+                animation-duration: 1.0s; /* Ускорено */
+            }
+
+            .load {
+                font-size: 18px;
+            }
+
+            .number-box {
+                font-size: 100px;
+            }
+
+            .random-button {
+                width: 250px;
+                font-size: 20px;
+                padding: 12px 0;
+                margin-top: 20px;
+            }
+
+            .telegram-info {
+                font-size: 25px;
+                font-family: sans-serif; /* Для русских текстов */
+            }
+
+            .telegram-info img {
+                width: 20px;
+                height: 20px;
+            }
+
+            /* Уменьшение размера анимированной надписи для мобильных */
+            #loading-text span { 
+                font-size: 33px; /* Уменьшен для мобильных */
+            }
+
+            .winner {
+                width: 250px; /* Соответствует ширине квадрата на мобильных */
+            }
+        }
+
+        /* Цвета для каждого числа */
+        #number-container.number-0 { 
+            background: linear-gradient(45deg, #5D2B9A 50%, #A1143A 50%); /* Половина фиолетовый, половина красный */
+            box-shadow: 0 0 40px #5D2B9A, 0 0 40px #A1143A;
+        }
+        #number-container.number-1 { 
+            background-color: #1E9841; /* Зеленый */
+            box-shadow: 0 0 40px #1E9841, 0 0 40px #1E9841;
+        }
+        #number-container.number-2 { 
+            background-color: #A1143A; /* Красный */
+            box-shadow: 0 0 40px #A1143A, 0 0 40px #A1143A;
+        }
+        #number-container.number-3 { 
+            background-color: #1E9841; /* Зеленый */
+            box-shadow: 0 0 40px #1E9841, 0 0 40px #1E9841;
+        }
+        #number-container.number-4 { 
+            background-color: #A1143A; /* Красный */
+            box-shadow: 0 0 40px #A1143A, 0 0 40px #A1143A;
+        }
+        #number-container.number-5 { 
+            background: linear-gradient(45deg, #5D2B9A 50%, #1E9841 50%); /* Половина фиолетовый, половина зеленый */
+            box-shadow: 0 0 40px #5D2B9A, 0 0 40px #1E9841;
+        }
+        #number-container.number-6 { 
+            background-color: #A1143A; /* Красный */
+            box-shadow: 0 0 40px #A1143A, 0 0 40px #A1143A;
+        }
+        #number-container.number-7 { 
+            background-color: #1E9841; /* Зеленый */
+            box-shadow: 0 0 40px #1E9841, 0 0 40px #1E9841;
+        }
+        #number-container.number-8 { 
+            background-color: #A1143A; /* Красный */
+            box-shadow: 0 0 40px #A1143A, 0 0 40px #A1143A;
+        }
+        #number-container.number-9 { 
+            background-color: #1E9841; /* Зеленый */
+            box-shadow: 0 0 40px #1E9841, 0 0 40px #1E9841;
+        }
+
+        /* Цвета для блока числа */
+        .number-box.number-0 { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #A1143A; /* Белое и красное свечение */
+        }
+        .number-box.number-1 { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #1E9841; /* Белое и зелёное свечение */
+        }
+        .number-box.number-2 { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #A1143A;
+        }
+        .number-box.number-3 { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #1E9841;
+        }
+        .number-box.number-4 { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #A1143A;
+        }
+        .number-box.number-5 { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #1E9841;
+        }
+        .number-box.number-6 { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #A1143A;
+        }
+        .number-box.number-7 { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #1E9841;
+        }
+        .number-box.number-8 { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #A1143A;
+        }
+        .number-box.number-9 { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #1E9841;
+        }
+        .clickable-image {
+                position: absolute; /* Позиционирование относительно ближайшего родителя с position: relative */
+                top: 1vh;           /* Отступ сверху 1% от высоты окна */
+                left: 5vw;          /* Отступ слева 5% от ширины окна */
+                cursor: pointer;    /* Указатель мыши при наведении */
+                width: 50px;         /* Задание ширины изображения */
+                height: 50px;        /* Задание высоты изображения */
+                border-radius: 50%;  /* Устанавливает круглую форму */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень изображения */
+                z-index: 100;        /* Задание слоя, чтобы кнопка была поверх других элементов */
+            }
+    </style>
+</head>
+<body>
+    <a href="../index.html">
+        <img src="static/back.png" alt="ИГРЫ" class="clickable-image">
+    </a>
+
+    <!-- Центральный элемент: Квадрат с числом и загрузчиком -->
+    <div id="number-container">
+        <!-- Загрузчик -->
+        <div class="loader" id="loader">
+            <div class="circle one"></div>
+            <div class="circle two"></div>
+            <div class="circle three"></div>
+            <div class="load" id="loading-animation">0%</div>
+        </div>
+        <!-- Блок числа -->
+        <div class="number-box" id="number-box">0</div>
+    </div>
+
+    <!-- Кнопка генерации числа -->
+    <button class="random-button" id="generate-button" onclick="generateRandomNumber()">GET SIGNAL</button>
+
+    <script>
+        function generateRandomNumber() {
+            const box = document.getElementById('number-box');
+            const loading = document.getElementById('loading-animation');
+            const button = document.getElementById('generate-button');
+            const loader = document.getElementById('loader');
+            const container = document.getElementById('number-container');
+
+            // Удалить все классы number-X из контейнера и блока числа
+            container.classList.remove('number-0', 'number-1', 'number-2', 'number-3', 'number-4', 'number-5', 'number-6', 'number-7', 'number-8', 'number-9');
+            box.classList.remove('number-0', 'number-1', 'number-2', 'number-3', 'number-4', 'number-5', 'number-6', 'number-7', 'number-8', 'number-9');
+
+            // Скрыть номер и показать загрузчик
+            box.style.opacity = 0;
+            box.style.transform = 'scale(0)';
+            container.classList.add('loading'); // Добавить класс загрузки
+            button.classList.add('hidden'); // Скрыть кнопку с анимацией
+            loader.style.display = 'block'; // Показать загрузчик
+            loading.textContent = '0%';
+            let progress = 0;
+
+            const loadingInterval = setInterval(() => {
+                progress += 5;
+                if (progress > 100) progress = 100;
+                loading.textContent = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    setTimeout(() => {
+                        // Скрыть загрузчик и показать номер с рандомным числом
+                        loader.style.display = 'none';
+                        const randomNumber = Math.floor(Math.random() * 10);
+                        box.style.display = 'flex';
+                        box.style.opacity = 1;
+                        box.style.transform = 'scale(1)';
+                        box.textContent = randomNumber;
+
+                        // Удалить класс 'loading' и добавить класс числа для контейнера
+                        container.classList.remove('loading');
+                        container.classList.add('number-' + randomNumber);
+
+                        // Установить класс для блока числа
+                        box.classList.add('number-' + randomNumber);
+
+                        // Анимация появления числа
+                        setTimeout(() => {
+                            box.style.transform = 'scale(1.2)';
+                        }, 100);
+
+                        // Показать кнопку снова после анимации
+                        setTimeout(() => {
+                            button.classList.remove('hidden'); // Показать кнопку с анимацией
+                        }, 500); // Уменьшено время для ускорения
+                    }, 300); // Уменьшено время задержки
+                }
+            }, 50); // Уменьшено время интервала для ускорения загрузки
+        }
+    </script>
+</body>
+</html>
