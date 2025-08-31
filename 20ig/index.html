@@ -171,6 +171,102 @@
         }
     });
     </script>
+    <style>
+        /* Language menu styles */
+.lang-options {
+    display: none;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    min-width: 150px;
+    top: 40px;
+    left: 0;
+}
+
+.lang-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px 0;
+    transition: background-color 0.3s ease;
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.lang-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Bot dropdown menu */
+.bot-dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    min-width: 180px;
+}
+
+.bot-item {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px 0;
+    transition: background-color 0.3s ease;
+    color: white;
+}
+
+.bot-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.back-button-container {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.back-button {
+    display: block;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .bot-dropdown {
+        right: 5px;
+        top: 45px;
+        min-width: 160px;
+    }
+    
+    .lang-options {
+        top: 35px;
+        left: -20px;
+        min-width: 140px;
+    }
+}
+    </style>
 
 </body> 
 </html>
