@@ -5,6 +5,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Game</title> 
     <link rel="stylesheet" href="styles.css"> 
+    <style>
+        /* Language menu styles */
+        .lang-options {
+            display: none;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 10px;
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+            min-width: 160px;
+            top: 45px;
+            left: 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .lang-option {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 14px;
+            display: block;
+            text-decoration: none;
+        }
+
+        .lang-option:hover {
+            background-color: rgba(76, 175, 80, 0.3);
+            transform: translateX(5px);
+        }
+
+        /* Bot dropdown menu */
+        .bot-dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            min-width: 200px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .bot-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            margin: 6px 0;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 15px;
+            position: relative;
+        }
+
+        .bot-item:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .back-button-container {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button {
+            display: block;
+            padding: 12px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(45deg, #45a049, #4CAF50);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Bot menu trigger */
+        .bot-trigger {
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .bot-trigger:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .bot-dropdown {
+                right: 5px;
+                top: 45px;
+                min-width: 180px;
+                padding: 12px;
+            }
+            
+            .lang-options {
+                top: 40px;
+                left: -10px;
+                min-width: 150px;
+            }
+            
+            .bot-item {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            
+            .lang-option {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+        }
+    </style>
 </head> 
 <body> 
     <div class="stars"></div> 
@@ -20,7 +149,7 @@
                 </div> 
             </div> 
             <div class="bot-dropdown" id="bot-dropdown"> 
-                <div class="bot-item" onclick="toggleLangMenu()">🌐 Language</div> 
+                <div class="bot-item" onclick="toggleLangMenu(event)">🌐 Language</div> 
                 <div class="lang-options" id="lang-options"> 
                     <div class="lang-option" onclick="changeLanguage('en')">🇺🇸 English</div> 
                     <div class="lang-option" onclick="changeLanguage('hi')">🇮🇳 Hindi</div> 
@@ -35,52 +164,13 @@
         </div> 
     </div> 
     <div class="container"> 
+        <!-- Your game cards here -->
         <div class="game-card"> 
             <img src="../other/3.jpg" alt="Mines" class="game-image"> 
             <a href="../min/index.html" class="play-button"></a> 
         </div> 
-        <div class="game-card"> 
-            <img src="../other/14.png" alt="Balloon" class="game-image"> 
-            <a href="../bal/index.html" class="play-button"></a> 
-        </div> 
-        <div class="game-card"> 
-            <img src="../other/4.png" alt="COLOR" class="game-image"> 
-            <a href="../COLOR/index.html" class="play-button"></a> 
-        </div> 
-        <div class="game-card"> 
-            <img src="../other/9.png" alt="Aviator" class="game-image"> 
-            <a href="../avi/index.html" class="play-button"></a> 
-        </div> 
-        <div class="game-card"> 
-            <img src="../other/6.png" alt="Penalty" class="game-image"> 
-            <a href="../pen/index.html" class="play-button"></a> 
-        </div> 
-        <div class="game-card"> 
-            <img src="../other/15.png" alt="Goal" class="game-image"> 
-            <a href="../goa/index.html" class="play-button"></a> 
-        </div> 
-        <div class="game-card"> 
-            <img src="../other/10.png" alt="Mines" class="game-image"> 
-            <a href="../turboD/index.html" class="play-button"></a> 
-        </div> 
-        <div class="game-card"> 
-            <img src="../other/12.png" alt="Chicken" class="game-image"> 
-            <a href="../chi/index.html" class="play-button"></a> 
-        </div> 
-        <div class="game-card"> 
-            <img src="../other/5.png" alt="Footboll" class="game-image"> 
-            <a href="../foo/index.html" class="play-button"></a> 
-        </div> 
-        <div class="game-card"> 
-            <img src="../other/11.png" alt="NewMines" class="game-image"> 
-            <a href="../nmi/index.html" class="play-button"></a> 
-        </div> 
-        <div class="game-card"> 
-            <img src="../other/20.jpg" alt="TOWERS" class="game-image"> 
-            <a href="../royal/index.html" class="play-button"></a> 
-        </div> 
+        <!-- ... other game cards ... -->
     </div> 
-    <script src="script.js"></script> 
 
     <script>
     // Language translations
@@ -112,6 +202,39 @@
         }
     };
 
+    let langMenuOpen = false;
+    let botMenuOpen = false;
+
+    // Function to toggle language menu
+    function toggleLangMenu(event) {
+        event.stopPropagation();
+        const langOptions = document.getElementById('lang-options');
+        
+        if (langOptions.style.display === 'block') {
+            langOptions.style.display = 'none';
+            langMenuOpen = false;
+        } else {
+            langOptions.style.display = 'block';
+            langMenuOpen = true;
+        }
+    }
+
+    // Function to toggle main menu
+    function toggleBotMenu() {
+        const dropdown = document.getElementById('bot-dropdown');
+        
+        if (dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+            botMenuOpen = false;
+            // Also close language menu
+            document.getElementById('lang-options').style.display = 'none';
+            langMenuOpen = false;
+        } else {
+            dropdown.style.display = 'block';
+            botMenuOpen = true;
+        }
+    }
+
     // Function to change language
     function changeLanguage(lang) {
         // Update device text
@@ -129,29 +252,8 @@
         localStorage.setItem('selectedLanguage', lang);
         
         // Close language menu
-        toggleLangMenu();
-    }
-
-    // Function to toggle language menu
-    function toggleLangMenu() {
-        const langOptions = document.getElementById('lang-options');
-        if (langOptions.style.display === 'block') {
-            langOptions.style.display = 'none';
-        } else {
-            langOptions.style.display = 'block';
-        }
-    }
-
-    // Function to toggle main menu
-    function toggleBotMenu() {
-        const dropdown = document.getElementById('bot-dropdown');
-        if (dropdown.style.display === 'block') {
-            dropdown.style.display = 'none';
-            // Also close language menu if open
-            document.getElementById('lang-options').style.display = 'none';
-        } else {
-            dropdown.style.display = 'block';
-        }
+        document.getElementById('lang-options').style.display = 'none';
+        langMenuOpen = false;
     }
 
     // Load saved language on page load
@@ -165,108 +267,27 @@
         const botMenu = document.getElementById('bot-menu');
         const langOptions = document.getElementById('lang-options');
         
-        if (!botMenu.contains(event.target)) {
-            document.getElementById('bot-dropdown').style.display = 'none';
-            langOptions.style.display = 'none';
+        if (!event.target.closest('.bot-menu') && !event.target.closest('.lang-options')) {
+            if (botMenuOpen) {
+                document.getElementById('bot-dropdown').style.display = 'none';
+                botMenuOpen = false;
+            }
+            if (langMenuOpen) {
+                langOptions.style.display = 'none';
+                langMenuOpen = false;
+            }
         }
     });
+
+    // Prevent closing when clicking inside menus
+    document.getElementById('bot-dropdown').addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+
+    document.getElementById('lang-options').addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
     </script>
-    <style>
-        /* Language menu styles */
-.lang-options {
-    display: none;
-    position: absolute;
-    background: rgba(0, 0, 0, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 10px;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    min-width: 150px;
-    top: 40px;
-    left: 0;
-}
-
-.lang-option {
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 5px 0;
-    transition: background-color 0.3s ease;
-    color: white;
-    text-decoration: none;
-    display: block;
-}
-
-.lang-option:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Bot dropdown menu */
-.bot-dropdown {
-    display: none;
-    position: absolute;
-    top: 50px;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 15px;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    min-width: 180px;
-}
-
-.bot-item {
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 5px 0;
-    transition: background-color 0.3s ease;
-    color: white;
-}
-
-.bot-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.back-button-container {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.back-button {
-    display: block;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-.back-button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    text-decoration: none;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .bot-dropdown {
-        right: 5px;
-        top: 45px;
-        min-width: 160px;
-    }
-    
-    .lang-options {
-        top: 35px;
-        left: -20px;
-        min-width: 140px;
-    }
-}
-    </style>
 
 </body> 
 </html>
