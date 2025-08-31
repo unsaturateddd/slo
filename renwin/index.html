@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Выигрыши</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    #language-selector {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    #language-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    #language-flag {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+
+    #language-code {
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    #language-menu {
+      margin-top: 8px;
+      background: #222;
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      background: #333;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .lang-option:hover {
+      background: #444;
+    }
+
+    .lang-option img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #222;
+    }
+
+    .lang-option span {
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="language-selector">
+    <button id="language-button">
+      <div style="display: flex; align-items: center; gap: 6px; background: #222; padding: 6px 10px; border-radius: 20px;">
+        <img id="language-flag" src="other/ru.png" alt="language">
+        <span id="language-code">RU</span>
+      </div>
+    </button>
+    <div id="language-menu" style="display: none;">
+      <div class="lang-option" data-lang="ru"><img src="other/ru.png"><span>RU</span></div>
+      <div class="lang-option" data-lang="en"><img src="other/en.png"><span>EN</span></div>
+      <div class="lang-option" data-lang="es"><img src="other/es.png"><span>ES</span></div>
+      <div class="lang-option" data-lang="pt"><img src="other/pt.png"><span>PT</span></div>
+      <div class="lang-option" data-lang="tr"><img src="other/tr.png"><span>TR</span></div>
+      <div class="lang-option" data-lang="hin"><img src="other/hin.png"><span>HIN</span></div>
+      <div class="lang-option" data-lang="ar"><img src="other/ar.png"><span>AR</span></div>
+      <div class="lang-option" data-lang="br"><img src="other/br.png"><span>BR</span></div>
+      <div class="lang-option" data-lang="az"><img src="other/az.png"><span>AZ</span></div>
+      <div class="lang-option" data-lang="uz"><img src="other/uz.png"><span>UZ</span></div>
+    </div>
+  </div>
+
+  <h2 id="win-title"></h2>
+  <div id="win-feed"></div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
