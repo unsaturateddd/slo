@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #050805 0%, #050a09 25%, #090f09 50%, #030303 75%, #737473 100%);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: white;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 0 10px rgba(74, 107, 255, 0.7);
+            margin: 0;
+            padding: 0;
+            letter-spacing: 2px;
+        }
+
+
+        .star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1;
+        }
+
+        h2 {
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 250px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+        }
+
+        .upload-area:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .image-container {
+            position: relative;
+            width: 250px;
+            height: 150px;
+            margin: 0 auto 20px;
+            display: none;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        #preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .image-overlay.show {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+        }
+
+        .image-overlay p {
+            margin: 5px 0;
+            font-size: 1rem;
+            text-align: center;
+            color: white;
+            text-shadow: 0 0 5px #000;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .analyze-btn, .reset-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .analyze-btn:disabled {
+            background: linear-gradient(135deg, #cccccc 0%, #999999 100%);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+
+        .analyze-btn:hover:not(:disabled), .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .analyze-btn:active:not(:disabled), .reset-btn:active {
+            transform: translateY(1px);
+        }
+
+        .upload-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 8px;
+            font-weight: 400;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        #analyzing-text {
+            display: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        #chance-text, #spins-text {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            z-index: 10;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            font-family: 'Intro', Arial, sans-serif;font-family: 'LuckiestGuy-Regular', cursive, sans-serif;
+            box-sizing: border-box;
+            font-size: 24px;
+            
+        }
+    </style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="header">
+    <h1>AKULA SIGNAL</h1>
+</div>
+<div class="container">
+    
+    <!-- Увеличенная область загрузки -->
+    <div class="upload-area" id="upload-area" style="
+        width: 90%;
+        max-width: 500px;
+        height: 350px;
+        margin: 2px auto;
+        border: 3px dashed #4a6bff;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: rgba(74, 107, 255, 0.05);
+    ">
+        <input type="file" id="file-input" accept="image/*" style="display: none;">
+        <div style="font-size: 18px; margin-bottom: 10px;">📁 Нажмите или перетащите изображение в указанную область</div>
+        <div class="upload-text" style="font-size: 14px; color: #aaa;">Формат: JPG, PNG, GIF</div>
+    </div>
+    <div class="image-container" id="image-container" style="
+    width: 90%;
+    max-width: 500px;
+    margin: 20px auto;
+    position: relative;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    border-radius: 15px;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+">
+    <img id="preview-image" src="#" alt="Ваше изображение" style="
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: none;
+    ">
+        <div class="image-overlay" id="image-overlay" style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+        ">
+            <p id="analyzing-text" style="font-size: 18px; margin: 5px;">Анализ...</p>
+            <p id="chance-text" style="font-size: 18px; margin: 5px; display: none;">Шанс: <span id="chance-value">0</span>%</p>
+            <p id="spins-text" style="font-size: 18px; margin: 5px; display: none;">Через <span id="spins-value">0</span> спинов</p>
+        </div>
+    </div>
+    
+    <div class="btn-group" style="
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    ">
+        <button class="analyze-btn" id="analyze-btn" disabled style="
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        ">Анализировать</button>
+        <button class="reset-btn" id="reset-btn" style="
+            padding: 12px 25px;
+            background: rgba(74, 107, 255, 0.1);
+            color: #4a6bff;
+            border: 1px solid #4a6bff;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        ">Ещё раз</button>
+        <a class="back-btn" href="../index.html" style="
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        ">Назад</a>
+        
+    </div>
+</div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Элементы
+    const uploadArea = document.getElementById('upload-area');
+    const fileInput = document.getElementById('file-input');
+    const previewImage = document.getElementById('preview-image');
+    const imageContainer = document.getElementById('image-container');
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const overlay = document.getElementById('image-overlay');
+    const analyzingText = document.getElementById('analyzing-text');
+    const chanceText = document.getElementById('chance-text');
+    const spinsText = document.getElementById('spins-text');
+    
+    // 1. Обработчик клика по области загрузки
+    uploadArea.addEventListener('click', function() {
+        fileInput.click();
+    });
+    
+    // 2. Обработчик выбора файла
+    fileInput.addEventListener('change', function(e) {
+        if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            
+            if (!file.type.match('image.*')) {
+                alert('Пожалуйста, выберите изображение (JPG, PNG, GIF)');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+                imageContainer.style.display = 'block';
+                uploadArea.style.display = 'none';
+                analyzeBtn.disabled = false;
+                
+                // Скрываем результаты предыдущего анализа
+                analyzingText.style.display = 'none';
+                chanceText.style.display = 'none';
+                spinsText.style.display = 'none';
+                overlay.classList.remove('show');
+            };
+            
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // 3. Drag and Drop
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.style.background = 'rgba(255, 255, 255, 0.2)';
+    });
+    
+    uploadArea.addEventListener('dragleave', function() {
+        uploadArea.style.background = '';
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.style.background = '';
+        
+        if (e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            const event = new Event('change');
+            fileInput.dispatchEvent(event);
+        }
+    });
+    
+    // 4. Кнопка анализа
+    analyzeBtn.addEventListener('click', function() {
+        // Показываем процесс анализа
+        analyzingText.style.display = 'block';
+        chanceText.style.display = 'none';
+        spinsText.style.display = 'none';
+        overlay.classList.add('show');
+        analyzeBtn.disabled = true;
+        
+        // Имитация анализа (задержка 2 секунды)
+        setTimeout(function() {
+            // Генерация случайных результатов
+            const chance = Math.floor(Math.random() * 16) + 80; // 80-95%
+            const spins = Math.floor(Math.random() * 14) + 15; // 15-28 спинов
+            
+            // Показываем результаты
+            document.getElementById('chance-value').textContent = chance;
+            document.getElementById('spins-value').textContent = spins;
+            
+            analyzingText.style.display = 'none';
+            chanceText.style.display = 'block';
+            spinsText.style.display = 'block';
+            
+            analyzeBtn.disabled = false;
+        }, 2000);
+    });
+    
+    // 5. Кнопка сброса
+    resetBtn.addEventListener('click', function() {
+        fileInput.value = '';
+        previewImage.src = '#';
+        previewImage.style.display = 'none';
+        imageContainer.style.display = 'none';
+        uploadArea.style.display = 'flex';
+        analyzeBtn.disabled = true;
+        
+        // Сбрасываем результаты анализа
+        analyzingText.style.display = 'none';
+        chanceText.style.display = 'none';
+        spinsText.style.display = 'none';
+        overlay.classList.remove('show');
+    });
+    
+    // Инициализация
+    function init() {
+        previewImage.style.display = 'none';
+        imageContainer.style.display = 'none';
+        uploadArea.style.display = 'flex';
+        analyzeBtn.disabled = true;
+        
+        analyzingText.style.display = 'none';
+        chanceText.style.display = 'none';
+        spinsText.style.display = 'none';
+        overlay.classList.remove('show');
+    }
+    
+    init();
+});
+
+// Функция создания звездного фона
+function createStars() {
+    const stars = document.getElementById('stars');
+    const count = 150;
+    
+    stars.innerHTML = '';
+    
+    for(let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const size = 0.5 + Math.random() * 1.5;
+        
+        star.style.left = x + '%';
+        star.style.top = y + '%';
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.animationDuration = 1 + Math.random() * 3 + 's';
+        
+        stars.appendChild(star);
+    }
+}
+
+// Инициализация при загрузке
+function init() {
+    previewImage.style.display = 'none';
+    imageContainer.style.display = 'none';
+    uploadArea.style.display = 'flex';
+    analyzeBtn.disabled = true;
+    
+    analyzingText.style.display = 'none';
+    chanceText.style.display = 'none';
+    spinsText.style.display = 'none';
+    overlay.classList.remove('show');
+    
+    // Создаем звездочки
+    createStars();
+}
+
+// Обработчик изменения размера окна
+window.addEventListener('resize', createStars);
+
+// Запускаем инициализацию при полной загрузке страницы
+window.onload = init;
+</script>   
+</body>
+</html>
