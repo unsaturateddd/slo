@@ -120,29 +120,46 @@
             background: linear-gradient(45deg, #45a049, #4CAF50);
         }
 
-        /* Play button styles */
+        /* Play button styles - UPDATED POSITION */
         .play-button {
             display: flex;
             align-items: center;
             justify-content: center;
             position: absolute;
-            bottom: 15px;
+            bottom: 25px; /* Changed from 15px to 25px - moved down */
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(45deg, #4CAF50, #45a049);
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 12px 24px; /* Slightly larger padding */
+            border-radius: 25px; /* More rounded */
             font-weight: bold;
             transition: all 0.3s ease;
-            min-width: 100px;
+            min-width: 110px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            z-index: 10;
         }
 
         .play-button:hover {
             background: linear-gradient(45deg, #45a049, #4CAF50);
             transform: translateX(-50%) scale(1.05);
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Game card container - ensure proper spacing */
+        .game-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .game-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
         }
 
         /* Show classes for JavaScript */
@@ -163,9 +180,27 @@
             }
             
             .play-button {
-                padding: 8px 16px;
+                bottom: 20px; /* Slightly less space on mobile */
+                padding: 10px 20px;
                 font-size: 14px;
+                min-width: 90px;
+            }
+            
+            .game-image {
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .play-button {
+                bottom: 18px;
+                padding: 8px 16px;
+                font-size: 13px;
                 min-width: 80px;
+            }
+            
+            .game-image {
+                height: 160px;
             }
         }
     </style>
@@ -202,11 +237,7 @@
         <div class="game-card"> 
             <img src="../other/3.jpg" alt="Mines" class="game-image"> 
             <a href="../min/index.html" class="play-button"><span class="play-text">Play</span></a> 
-        </div>
-        <div class="game-card">
-            <img src="../avia/images/1.png" alt="TOWERS" class="game-image">
-            <a href="../avia/index.html" class="play-button">Play</a>
-        </div>
+        </div> 
         <div class="game-card"> 
             <img src="../other/14.png" alt="Balloon" class="game-image"> 
             <a href="../bal/index.html" class="play-button"><span class="play-text">Play</span></a> 
@@ -246,7 +277,7 @@
         <div class="game-card"> 
             <img src="../other/20.jpg" alt="TOWERS" class="game-image"> 
             <a href="../royal/index.html" class="play-button"><span class="play-text">Play</span></a> 
-        </div>
+        </div> 
     </div> 
 
     <script>
