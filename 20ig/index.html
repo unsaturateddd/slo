@@ -24,11 +24,11 @@
       <div class="bot-dropdown" id="bot-dropdown">
         <div class="bot-item" onclick="toggleLangMenu()">🌐 <span data-translate="language">Language</span></div>
         <div class="lang-options" id="lang-options" style="display:none;">
-          <div class="bot-item" onclick="setLanguage('en')">🇬🇧 English</div>
-          <div class="bot-item" onclick="setLanguage('ru')">🇷🇺 Русский</div>
-          <div class="bot-item" onclick="setLanguage('hi')">🇮🇳 हिन्दी</div>
-          <div class="bot-item" onclick="setLanguage('pt')">🇵🇹 Português</div>
-          <div class="bot-item" onclick="setLanguage('es')">🇪🇸 Español</div>
+          <div class="bot-item" onclick="changeLang('en')">🇬🇧 English</div>
+          <div class="bot-item" onclick="changeLang('ru')">🇷🇺 Русский</div>
+          <div class="bot-item" onclick="changeLang('hi')">🇮🇳 हिन्दी</div>
+          <div class="bot-item" onclick="changeLang('pt')">🇵🇹 Português</div>
+          <div class="bot-item" onclick="changeLang('es')">🇪🇸 Español</div>
         </div>
         <div class="bot-item" onclick="openProfile()">👤 <span data-translate="profile">Profile</span></div>
         <div class="bot-item" onclick="toggleSettingsMenu()">⚙️ <span data-translate="settings">Settings</span></div>
@@ -40,6 +40,7 @@
   </div>
 
   <div class="container">
+    <!-- Игры -->
     <div class="game-card"><img src="../other/3.jpg" alt="Mines" class="game-image"><a href="../min/index.html" class="play-button"></a></div>
     <div class="game-card"><img src="../other/14.png" alt="Balloon" class="game-image"><a href="../bal/index.html" class="play-button"></a></div>
     <div class="game-card"><img src="../other/4.png" alt="COLOR" class="game-image"><a href="../COLOR/index.html" class="play-button"></a></div>
@@ -83,86 +84,34 @@
   <script>
     const translations = {
       en: {
-        language: "Language",
-        profile: "Profile",
-        settings: "Settings",
-        back: "Back",
-        glow: "Disable glow",
-        stars: "Disable stars",
-        background: "Change background",
-        close: "Close",
-        "nickname-label": "Enter nickname:",
-        save: "Save",
-        nickname: "Nickname:",
-        status: "Account status:",
-        chance: "Drop chance:"
+        language: "Language", profile: "Profile", settings: "Settings", back: "Back",
+        glow: "Disable glow", stars: "Disable stars", background: "Change background", close: "Close",
+        "nickname-label": "Enter nickname:", save: "Save", nickname: "Nickname:", status: "Account status:", chance: "Drop chance:"
       },
       ru: {
-        language: "Язык",
-        profile: "Профиль",
-        settings: "Настройки",
-        back: "Назад",
-        glow: "Выключить сияние",
-        stars: "Выключить звёзды",
-        background: "Сменить фон",
-        close: "Закрыть",
-        "nickname-label": "Введите никнейм:",
-        save: "Сохранить",
-        nickname: "Никнейм:",
-        status: "Статус аккаунта:",
-        chance: "Шанс выдачи:"
+        language: "Язык", profile: "Профиль", settings: "Настройки", back: "Назад",
+        glow: "Выключить сияние", stars: "Выключить звёзды", background: "Сменить фон", close: "Закрыть",
+        "nickname-label": "Введите никнейм:", save: "Сохранить", nickname: "Никнейм:", status: "Статус аккаунта:", chance: "Шанс выдачи:"
       },
       hi: {
-        language: "भाषा",
-        profile: "प्रोफ़ाइल",
-        settings: "सेटिंग्स",
-        back: "वापस",
-        glow: "चमक बंद करें",
-        stars: "सितारे बंद करें",
-        background: "पृष्ठभूमि बदलें",
-        close: "बंद करें",
-        "nickname-label": "उपनाम दर्ज करें:",
-        save: "सहेजें",
-        nickname: "उपनाम:",
-        status: "खाते की स्थिति:",
-        chance: "ड्रॉप संभावना:"
+        language: "भाषा", profile: "प्रोफ़ाइल", settings: "सेटिंग्स", back: "वापस",
+        glow: "चमक बंद करें", stars: "सितारे बंद करें", background: "पृष्ठभूमि बदलें", close: "बंद करें",
+        "nickname-label": "उपनाम दर्ज करें:", save: "सहेजें", nickname: "उपनाम:", status: "खाते की स्थिति:", chance: "ड्रॉप संभावना:"
       },
       pt: {
-        language: "Idioma",
-        profile: "Perfil",
-        settings: "Configurações",
-        back: "Voltar",
-        glow: "Desativar brilho",
-        stars: "Desativar estrelas",
-        background: "Mudar fundo",
-        close: "Fechar",
-        "nickname-label": "Digite o apelido:",
-        save: "Salvar",
-        nickname: "Apelido:",
-        status: "Status da conta:",
-        chance: "Chance de queda:"
+        language: "Idioma", profile: "Perfil", settings: "Configurações", back: "Voltar",
+        glow: "Desativar brilho", stars: "Desativar estrelas", background: "Mudar fundo", close: "Fechar",
+        "nickname-label": "Digite o apelido:", save: "Salvar", nickname: "Apelido:", status: "Status da conta:", chance: "Chance de queda:"
       },
       es: {
-        language: "Idioma",
-        profile: "Perfil",
-        settings: "Configuración",
-        back: "Atrás",
-        glow: "Desactivar brillo",
-        stars: "Desactivar estrellas",
-        background: "Cambiar fondo",
-        close: "Cerrar",
-        "nickname-label": "Introduce un apodo:",
-        save: "Guardar",
-        nickname: "Apodo:",
-        status: "Estado de la cuenta:",
-        chance: "Probabilidad de caída:"
+        language: "Idioma", profile: "Perfil", settings: "Configuración", back: "Atrás",
+        glow: "Desactivar brillo", stars: "Desactivar estrellas", background: "Cambiar fondo", close: "Cerrar",
+        "nickname-label": "Introduce un apodo:", save: "Guardar", nickname: "Apodo:", status: "Estado de la cuenta:", chance: "Probabilidad de caída:"
       }
     };
 
-    let currentLang = "en"; // по умолчанию английский
-
-    function setLanguage(lang) {
-      currentLang = lang;
+    function changeLang(lang) {
+      localStorage.setItem("siteLang", lang); // сохраняем
       document.querySelectorAll("[data-translate]").forEach(el => {
         const key = el.getAttribute("data-translate");
         el.textContent = translations[lang][key];
@@ -174,8 +123,11 @@
       menu.style.display = menu.style.display === "none" ? "block" : "none";
     }
 
-    // применяем язык при загрузке
-    window.onload = () => setLanguage(currentLang);
+    // Загружаем сохранённый язык или ставим английский по умолчанию
+    window.onload = () => {
+      const saved = localStorage.getItem("siteLang") || "en";
+      changeLang(saved);
+    };
   </script>
 
   <script src="script.js"></script>
