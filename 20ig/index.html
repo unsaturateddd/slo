@@ -120,7 +120,7 @@
             background: linear-gradient(45deg, #45a049, #4CAF50);
         }
 
-        /* Game card container - COMPLETELY REDESIGNED */
+        /* Game card container */
         .game-card {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
@@ -385,11 +385,15 @@
         
         // Update language button text
         const langButton = document.querySelector('.bot-item');
-        langButton.textContent = '🌐 ' + translation.language;
+        if (langButton) {
+            langButton.textContent = '🌐 ' + translation.language;
+        }
         
         // Update back button text
         const backButton = document.querySelector('.back-button');
-        backButton.textContent = translation.back;
+        if (backButton) {
+            backButton.textContent = translation.back;
+        }
         
         // Update all play buttons text
         const playTexts = document.querySelectorAll('.play-text');
@@ -402,10 +406,18 @@
         
         // Close language menu
         document.getElementById('lang-options').classList.remove('show');
+        
+        // Update html lang attribute
+        document.documentElement.lang = lang;
     }
 
     // Load saved language on page load
     document.addEventListener('DOMContentLoaded', function() {
+        // Initialize menus as hidden
+        document.getElementById('bot-dropdown').style.display = 'none';
+        document.getElementById('lang-options').style.display = 'none';
+        
+        // Load language
         const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
         changeLanguage(savedLanguage);
     });
@@ -418,7 +430,9 @@
         
         if (!botMenu.contains(event.target)) {
             dropdown.classList.remove('show');
+            dropdown.style.display = 'none';
             langOptions.classList.remove('show');
+            langOptions.style.display = 'none';
         }
     });
 
