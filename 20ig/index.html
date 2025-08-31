@@ -120,6 +120,31 @@
             background: linear-gradient(45deg, #45a049, #4CAF50);
         }
 
+        /* Play button styles */
+        .play-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .play-button:hover {
+            background: linear-gradient(45deg, #45a049, #4CAF50);
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
         /* Show classes for JavaScript */
         .show {
             display: block !important;
@@ -135,6 +160,12 @@
             .lang-options {
                 left: -150px;
                 width: 140px;
+            }
+            
+            .play-button {
+                padding: 8px 16px;
+                font-size: 14px;
+                min-width: 80px;
             }
         }
     </style>
@@ -167,56 +198,56 @@
             </div> 
         </div> 
     </div> 
-    <div class="container">
-          <div class="game-card">
-            <img src="../other/3.jpg" alt="Mines" class="game-image">
-            <a href="../min/index.html" class="play-button"></a>
-        </div>
-        <div class="game-card">
-            <img src="../other/14.png" alt="Balloon" class="game-image">
-            <a href="../bal/index.html" class="play-button"></a>
-        </div>
-        <div class="game-card">
-            <img src="../other/4.png" alt="COLOR" class="game-image">
-            <a href="../COLOR/index.html" class="play-button"></a>
-        </div>
-        <div class="game-card">
-            <img src="../other/9.png" alt="Aviator" class="game-image">
-            <a href="../avi/index.html" class="play-button"></a>
-        </div>
-        <div class="game-card">
-            <img src="../other/6.png" alt="Penalty" class="game-image">
-            <a href="../pen/index.html" class="play-button"></a>
-        </div>
-        <div class="game-card">
-            <img src="../other/15.png" alt="Goal" class="game-image">
-            <a href="../goa/index.html" class="play-button"></a>
-        </div>
-        <div class="game-card">
-            <img src="../other/10.png" alt="Mines" class="game-image">
-            <a href="../turboD/index.html" class="play-button"></a>
-        </div>
-        <div class="game-card">
-            <img src="../other/12.png" alt="Chicken" class="game-image">
-            <a href="../chi/index.html" class="play-button"></a>
-        </div>
-        <div class="game-card">
-            <img src="../other/5.png" alt="Footboll" class="game-image">
-            <a href="../foo/index.html" class="play-button"></a>
-        </div>
-        <div class="game-card">
-            <img src="../other/11.png" alt="NewMines" class="game-image">
-            <a href="../nmi/index.html" class="play-button"></a>
-        </div>
-        <div class="game-card">
-            <img src="../other/20.jpg" alt="TOWERS" class="game-image">
-            <a href="../royal/index.html" class="play-button"></a>
+    <div class="container"> 
+        <div class="game-card"> 
+            <img src="../other/3.jpg" alt="Mines" class="game-image"> 
+            <a href="../min/index.html" class="play-button"><span class="play-text">Play</span></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/14.png" alt="Balloon" class="game-image"> 
+            <a href="../bal/index.html" class="play-button"><span class="play-text">Play</span></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/4.png" alt="COLOR" class="game-image"> 
+            <a href="../COLOR/index.html" class="play-button"><span class="play-text">Play</span></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/9.png" alt="Aviator" class="game-image"> 
+            <a href="../avi/index.html" class="play-button"><span class="play-text">Play</span></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/6.png" alt="Penalty" class="game-image"> 
+            <a href="../pen/index.html" class="play-button"><span class="play-text">Play</span></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/15.png" alt="Goal" class="game-image"> 
+            <a href="../goa/index.html" class="play-button"><span class="play-text">Play</span></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/10.png" alt="Mines" class="game-image"> 
+            <a href="../turboD/index.html" class="play-button"><span class="play-text">Play</span></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/12.png" alt="Chicken" class="game-image"> 
+            <a href="../chi/index.html" class="play-button"><span class="play-text">Play</span></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/5.png" alt="Footboll" class="game-image"> 
+            <a href="../foo/index.html" class="play-button"><span class="play-text">Play</span></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/11.png" alt="NewMines" class="game-image"> 
+            <a href="../nmi/index.html" class="play-button"><span class="play-text">Play</span></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/20.jpg" alt="TOWERS" class="game-image"> 
+            <a href="../royal/index.html" class="play-button"><span class="play-text">Play</span></a> 
         </div>
         <div class="game-card">
             <img src="../avia/images/1.png" alt="TOWERS" class="game-image">
             <a href="../avia/index.html" class="play-button"></a>
         </div>
-    </div>
+    </div> 
 
     <script>
     // Language translations
@@ -224,27 +255,32 @@
         'en': {
             'deviceText': 'PC',
             'language': 'Language',
-            'back': '← Back'
+            'back': '← Back',
+            'play': 'Play'
         },
         'hi': {
             'deviceText': 'PC',
             'language': 'भाषा',
-            'back': '← वापस'
+            'back': '← वापस',
+            'play': 'खेल'
         },
         'pt': {
             'deviceText': 'PC', 
             'language': 'Idioma',
-            'back': '← Voltar'
+            'back': '← Voltar',
+            'play': 'Jogar'
         },
         'es': {
             'deviceText': 'PC',
             'language': 'Idioma',
-            'back': '← Atrás'
+            'back': '← Atrás',
+            'play': 'Jugar'
         },
         'ru': {
             'deviceText': 'ПК',
             'language': 'Язык',
-            'back': '← Назад'
+            'back': '← Назад',
+            'play': 'Играть'
         }
     };
 
@@ -264,7 +300,8 @@
     }
 
     // Function to toggle language menu
-    function toggleLangMenu() {
+    function toggleLangMenu(event) {
+        if (event) event.stopPropagation();
         const langOptions = document.getElementById('lang-options');
         
         if (langOptions.classList.contains('show')) {
@@ -272,23 +309,28 @@
         } else {
             langOptions.classList.add('show');
         }
-        
-        // Stop event from closing parent menu
-        event.stopPropagation();
     }
 
     // Function to change language
     function changeLanguage(lang) {
+        const translation = translations[lang];
+        
         // Update device text
-        document.getElementById('device-text').textContent = translations[lang].deviceText;
+        document.getElementById('device-text').textContent = translation.deviceText;
         
         // Update language button text
         const langButton = document.querySelector('.bot-item');
-        langButton.textContent = '🌐 ' + translations[lang].language;
+        langButton.textContent = '🌐 ' + translation.language;
         
         // Update back button text
         const backButton = document.querySelector('.back-button');
-        backButton.textContent = translations[lang].back;
+        backButton.textContent = translation.back;
+        
+        // Update all play buttons text
+        const playTexts = document.querySelectorAll('.play-text');
+        playTexts.forEach(text => {
+            text.textContent = translation.play;
+        });
         
         // Save selected language to localStorage
         localStorage.setItem('selectedLanguage', lang);
