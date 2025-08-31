@@ -6,50 +6,47 @@
     <title>Game</title> 
     <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* Language menu styles */
-        .lang-options {
-            display: none;
-            position: absolute;
-            background: rgba(0, 0, 0, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            padding: 10px;
-            z-index: 1001;
-            backdrop-filter: blur(10px);
-            min-width: 160px;
-            top: 45px;
-            left: 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        /* Top bar styles */
+        .top-bar {
+            position: relative;
+            z-index: 1000;
         }
 
-        .lang-option {
-            padding: 10px 12px;
+        /* Bot menu styles */
+        .bot-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .bot-trigger {
             cursor: pointer;
-            border-radius: 6px;
-            margin: 4px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
             transition: all 0.3s ease;
-            color: white;
-            font-size: 14px;
-            display: block;
-            text-decoration: none;
         }
 
-        .lang-option:hover {
-            background-color: rgba(76, 175, 80, 0.3);
-            transform: translateX(5px);
+        .bot-trigger:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
         }
 
-        /* Bot dropdown menu */
+        .bot-trigger img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Main dropdown menu */
         .bot-dropdown {
             display: none;
             position: absolute;
-            top: 50px;
-            right: 10px;
+            top: 45px;
+            right: 0;
             background: rgba(0, 0, 0, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 12px;
             padding: 15px;
-            z-index: 1000;
+            z-index: 1002;
             backdrop-filter: blur(15px);
             min-width: 200px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
@@ -68,9 +65,39 @@
 
         .bot-item:hover {
             background-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
         }
 
+        /* Language menu styles */
+        .lang-options {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: -170px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 10px;
+            z-index: 1003;
+            backdrop-filter: blur(10px);
+            width: 160px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .lang-option {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 14px;
+        }
+
+        .lang-option:hover {
+            background-color: rgba(76, 175, 80, 0.3);
+        }
+
+        /* Back button */
         .back-button-container {
             margin-top: 15px;
             padding-top: 15px;
@@ -91,46 +118,23 @@
 
         .back-button:hover {
             background: linear-gradient(45deg, #45a049, #4CAF50);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
         }
 
-        /* Bot menu trigger */
-        .bot-trigger {
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .bot-trigger:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.1);
+        /* Show classes for JavaScript */
+        .show {
+            display: block !important;
         }
 
         /* Responsive design */
         @media (max-width: 768px) {
             .bot-dropdown {
-                right: 5px;
-                top: 45px;
+                right: -10px;
                 min-width: 180px;
-                padding: 12px;
             }
             
             .lang-options {
-                top: 40px;
-                left: -10px;
-                min-width: 150px;
-            }
-            
-            .bot-item {
-                padding: 10px 12px;
-                font-size: 14px;
-            }
-            
-            .lang-option {
-                padding: 8px 10px;
-                font-size: 13px;
+                left: -150px;
+                width: 140px;
             }
         }
     </style>
@@ -149,7 +153,7 @@
                 </div> 
             </div> 
             <div class="bot-dropdown" id="bot-dropdown"> 
-                <div class="bot-item" onclick="toggleLangMenu(event)">🌐 Language</div> 
+                <div class="bot-item" onclick="toggleLangMenu()">🌐 Language</div> 
                 <div class="lang-options" id="lang-options"> 
                     <div class="lang-option" onclick="changeLanguage('en')">🇺🇸 English</div> 
                     <div class="lang-option" onclick="changeLanguage('hi')">🇮🇳 Hindi</div> 
@@ -240,37 +244,33 @@
         }
     };
 
-    let langMenuOpen = false;
-    let botMenuOpen = false;
-
-    // Function to toggle language menu
-    function toggleLangMenu(event) {
-        if (event) event.stopPropagation();
-        const langOptions = document.getElementById('lang-options');
-        
-        if (langOptions.style.display === 'block') {
-            langOptions.style.display = 'none';
-            langMenuOpen = false;
-        } else {
-            langOptions.style.display = 'block';
-            langMenuOpen = true;
-        }
-    }
-
     // Function to toggle main menu
     function toggleBotMenu() {
         const dropdown = document.getElementById('bot-dropdown');
+        const langOptions = document.getElementById('lang-options');
         
-        if (dropdown.style.display === 'block') {
-            dropdown.style.display = 'none';
-            botMenuOpen = false;
-            // Also close language menu
-            document.getElementById('lang-options').style.display = 'none';
-            langMenuOpen = false;
+        if (dropdown.classList.contains('show')) {
+            dropdown.classList.remove('show');
+            langOptions.classList.remove('show');
         } else {
-            dropdown.style.display = 'block';
-            botMenuOpen = true;
+            dropdown.classList.add('show');
+            // Close language menu when opening main menu
+            langOptions.classList.remove('show');
         }
+    }
+
+    // Function to toggle language menu
+    function toggleLangMenu() {
+        const langOptions = document.getElementById('lang-options');
+        
+        if (langOptions.classList.contains('show')) {
+            langOptions.classList.remove('show');
+        } else {
+            langOptions.classList.add('show');
+        }
+        
+        // Stop event from closing parent menu
+        event.stopPropagation();
     }
 
     // Function to change language
@@ -279,68 +279,46 @@
         document.getElementById('device-text').textContent = translations[lang].deviceText;
         
         // Update language button text
-        const langButtons = document.querySelectorAll('.bot-item');
-        if (langButtons[0]) {
-            langButtons[0].textContent = '🌐 ' + translations[lang].language;
-        }
+        const langButton = document.querySelector('.bot-item');
+        langButton.textContent = '🌐 ' + translations[lang].language;
         
         // Update back button text
         const backButton = document.querySelector('.back-button');
-        if (backButton) {
-            backButton.textContent = translations[lang].back;
-        }
+        backButton.textContent = translations[lang].back;
         
         // Save selected language to localStorage
         localStorage.setItem('selectedLanguage', lang);
         
         // Close language menu
-        document.getElementById('lang-options').style.display = 'none';
-        langMenuOpen = false;
+        document.getElementById('lang-options').classList.remove('show');
     }
 
     // Load saved language on page load
     document.addEventListener('DOMContentLoaded', function() {
         const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
         changeLanguage(savedLanguage);
-        
-        // Initialize menus
-        document.getElementById('bot-dropdown').style.display = 'none';
-        document.getElementById('lang-options').style.display = 'none';
     });
 
     // Close menus when clicking outside
     document.addEventListener('click', function(event) {
         const botMenu = document.getElementById('bot-menu');
+        const dropdown = document.getElementById('bot-dropdown');
         const langOptions = document.getElementById('lang-options');
         
-        if (!event.target.closest('.bot-menu') && !event.target.closest('.lang-options')) {
-            if (botMenuOpen) {
-                document.getElementById('bot-dropdown').style.display = 'none';
-                botMenuOpen = false;
-            }
-            if (langMenuOpen) {
-                langOptions.style.display = 'none';
-                langMenuOpen = false;
-            }
+        if (!botMenu.contains(event.target)) {
+            dropdown.classList.remove('show');
+            langOptions.classList.remove('show');
         }
     });
 
-    // Prevent closing when clicking inside menus
-    document.addEventListener('DOMContentLoaded', function() {
-        const botDropdown = document.getElementById('bot-dropdown');
-        const langOptions = document.getElementById('lang-options');
-        
-        if (botDropdown) {
-            botDropdown.addEventListener('click', function(event) {
-                event.stopPropagation();
-            });
-        }
-        
-        if (langOptions) {
-            langOptions.addEventListener('click', function(event) {
-                event.stopPropagation();
-            });
-        }
+    // Prevent closing when clicking inside dropdown
+    document.getElementById('bot-dropdown').addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+
+    // Prevent closing when clicking inside lang options
+    document.getElementById('lang-options').addEventListener('click', function(event) {
+        event.stopPropagation();
     });
     </script>
 
