@@ -164,12 +164,50 @@
         </div> 
     </div> 
     <div class="container"> 
-        <!-- Your game cards here -->
         <div class="game-card"> 
             <img src="../other/3.jpg" alt="Mines" class="game-image"> 
             <a href="../min/index.html" class="play-button"></a> 
         </div> 
-        <!-- ... other game cards ... -->
+        <div class="game-card"> 
+            <img src="../other/14.png" alt="Balloon" class="game-image"> 
+            <a href="../bal/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/4.png" alt="COLOR" class="game-image"> 
+            <a href="../COLOR/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/9.png" alt="Aviator" class="game-image"> 
+            <a href="../avi/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/6.png" alt="Penalty" class="game-image"> 
+            <a href="../pen/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/15.png" alt="Goal" class="game-image"> 
+            <a href="../goa/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/10.png" alt="Mines" class="game-image"> 
+            <a href="../turboD/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/12.png" alt="Chicken" class="game-image"> 
+            <a href="../chi/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/5.png" alt="Footboll" class="game-image"> 
+            <a href="../foo/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/11.png" alt="NewMines" class="game-image"> 
+            <a href="../nmi/index.html" class="play-button"></a> 
+        </div> 
+        <div class="game-card"> 
+            <img src="../other/20.jpg" alt="TOWERS" class="game-image"> 
+            <a href="../royal/index.html" class="play-button"></a> 
+        </div> 
     </div> 
 
     <script>
@@ -207,7 +245,7 @@
 
     // Function to toggle language menu
     function toggleLangMenu(event) {
-        event.stopPropagation();
+        if (event) event.stopPropagation();
         const langOptions = document.getElementById('lang-options');
         
         if (langOptions.style.display === 'block') {
@@ -241,12 +279,16 @@
         document.getElementById('device-text').textContent = translations[lang].deviceText;
         
         // Update language button text
-        const langButton = document.querySelector('.bot-item');
-        langButton.textContent = '🌐 ' + translations[lang].language;
+        const langButtons = document.querySelectorAll('.bot-item');
+        if (langButtons[0]) {
+            langButtons[0].textContent = '🌐 ' + translations[lang].language;
+        }
         
         // Update back button text
         const backButton = document.querySelector('.back-button');
-        backButton.textContent = translations[lang].back;
+        if (backButton) {
+            backButton.textContent = translations[lang].back;
+        }
         
         // Save selected language to localStorage
         localStorage.setItem('selectedLanguage', lang);
@@ -260,6 +302,10 @@
     document.addEventListener('DOMContentLoaded', function() {
         const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
         changeLanguage(savedLanguage);
+        
+        // Initialize menus
+        document.getElementById('bot-dropdown').style.display = 'none';
+        document.getElementById('lang-options').style.display = 'none';
     });
 
     // Close menus when clicking outside
@@ -280,12 +326,21 @@
     });
 
     // Prevent closing when clicking inside menus
-    document.getElementById('bot-dropdown').addEventListener('click', function(event) {
-        event.stopPropagation();
-    });
-
-    document.getElementById('lang-options').addEventListener('click', function(event) {
-        event.stopPropagation();
+    document.addEventListener('DOMContentLoaded', function() {
+        const botDropdown = document.getElementById('bot-dropdown');
+        const langOptions = document.getElementById('lang-options');
+        
+        if (botDropdown) {
+            botDropdown.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+        }
+        
+        if (langOptions) {
+            langOptions.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+        }
     });
     </script>
 
