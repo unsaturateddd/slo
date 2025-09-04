@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>AI MINES SIGNAL | Tower Rush</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <header class="app-header">
+        <div class="app-title">
+          <div class="app-logo" aria-hidden="true"></div>
+          <div class="app-title-text">
+            <div class="title-badge">SIGNAL BOT</div>
+            <div class="title-strong" data-i18n="header.title">TOWER RUSH</div>
+            <div class="title-sub" id="statusChip" data-i18n="status.ready">Готов к сигналу</div>
+          </div>
+        </div>
+        <div class="lang-switch">
+          <button class="chip" data-lang="ru" aria-pressed="true">RU</button>
+          <button class="chip" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+      </header>
+
+      <main class="card">
+        <section class="room-section">
+          <label class="label" for="roomId" data-i18n="room.label">ID игры</label>
+          <div class="input-row">
+            <input id="roomId" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="9" placeholder="Введите ID" autocomplete="off" data-i18n-ph="room.placeholder" />
+            <button id="okBtn" class="btn-secondary" data-i18n="room.ok">OK</button>
+          </div>
+          <div class="hint" data-i18n="room.hint">Укажите ID игры. Его нужно ввести только 1 раз.</div>
+        </section>
+
+        <section class="signal-card">
+          <div id="signalThinking" class="thinking" aria-live="polite" aria-atomic="true" hidden>
+            <span class="dot" data-i="1">•</span>
+            <span class="dot" data-i="2">•</span>
+            <span class="dot" data-i="3">•</span>
+          </div>
+          <div id="signalValue" class="signal-value" aria-live="polite" aria-atomic="true">-</div>
+          <div class="signal-caption" data-i18n="signal.caption">Сколько блоков подряд поставить</div>
+        </section>
+
+        <button id="getSignalBtn" class="btn-primary striped" disabled data-i18n="cta.get">
+          ПОЛУЧИТЬ СИГНАЛ
+        </button>
+
+        <p class="note" data-i18n="note.text">
+          Если вы сделали больше чем ×2.5 от ставки, забирайте выигрыш! Даже если бот сказал ставить больше блоков.
+        </p>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+  </html>
+
+
